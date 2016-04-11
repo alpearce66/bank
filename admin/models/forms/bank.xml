@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+				name="id"
+				type="hidden"
+				/>
+		<field
+				name="description"
+				type="text"
+				label="COM_BANK_BANK_GREETING_LABEL"
+				description="COM_BANK_BANK_GREETING_DESC"
+				size="150"
+				class="inputbox"
+				default=""
+				/>
+		<field
+				name="balance"
+				type="float"
+				label="COM_BANK_BANK_GREETING_LABEL"
+				description="COM_BANK_BANK_GREETING_DESC"
+				size="11"
+				class="inputbox"
+				default=""
+				/>
+		<field name="user_id" type="user"
+			label="User"
+			/>
+		<field
+				name="Balance"
+				type="number"
+				label="COM_BANK_BANK_GREETING_LABEL"
+				description="COM_BANK_BANK_GREETING_DESC"
+				size="11"
+				class="inputbox"
+				default=""
+				/>
+	</fieldset>
+</form>
