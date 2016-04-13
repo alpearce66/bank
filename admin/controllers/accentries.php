@@ -36,7 +36,7 @@ class BankControllerAccEntries extends JControllerAdmin
 	}
 	
 	
-	public function edit()
+	public function claimList()
 	{
 		$view = $this->getView('AccEntries','html','BankView');
 		$view->setModel( $this->getModel(), true );
