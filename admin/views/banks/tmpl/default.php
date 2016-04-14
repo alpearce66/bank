@@ -46,7 +46,7 @@ defined('_JEXEC') or die('Restricted Access');
 			<?php if (!empty($this->items)) : ?>
 				<?php foreach ($this->items as $i => $row) :
 					$link = JRoute::_('index.php?option=com_bank&task=bank.edit&id=' . $row->id);
-					$entries = JRoute::_('index.php?option=com_bank&task=accEntries.claimList&view=accEntries&acc_id='.$row->id);
+					$entries = JRoute::_('index.php?option=com_bank&task=accEntries.expenseList&view=accEntries&acc_id='.$row->id);
 				?>
 					<tr>
 						<td><?php echo $this->pagination->getRowOffset($i); ?></td>

@@ -10,6 +10,7 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
 ?>
+DEFAULT
 <form action="index.php?option=com_bank&view=accentries" method="post" id="adminForm" name="adminForm">
 	<table class="table table-striped table-hover">
 		<thead>
@@ -39,12 +40,12 @@ defined('_JEXEC') or die('Restricted Access');
 		<tbody>
 			<?php if (!empty($this->items)) : ?>
 				<?php foreach ($this->items as $i => $row) :
-					$link = JRoute::_('index.php?option=com_bank&task=bank.edit&id=' . $row->id);
+					$link = JRoute::_('index.php?option=com_bank&task=accEntries.expenseForm&view=accEntries&acc_id='.$row->trans_id);
 				?>
 					<tr>
 						<td><?php echo $this->pagination->getRowOffset($i); ?></td>
 						<td>
-							<?php echo JHtml::_('grid.id', $i, $row->id); ?>
+							<?php echo JHtml::_('grid.id', $i, $row->trans_id); ?>
 						</td>
 						<td>
 							<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_BANK_EDIT_BANK_ACC'); ?>">

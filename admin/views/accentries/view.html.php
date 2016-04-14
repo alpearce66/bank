@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class BankViewAccEntries extends JViewLegacy
 {
-	
+	 
 	/**
 	 * Display the Bank view
 	 *
@@ -29,13 +29,15 @@ class BankViewAccEntries extends JViewLegacy
 	{
 		// Get data from the model
 		dump($this,"1");
+		dump($this->getLayout(),"BankViewAccEntries.display Layout");
+		dump($this->_Layout,"BankViewAccEntries.display _Layout");
 		$this->pagination	= $this->get('Pagination');
 		
-		$acc_id = $this->pagination->getAdditionalUrlParam('acc_id');
+//		$acc_id = $this->pagination->getAdditionalUrlParam('acc_id');
 		$this->items		= $this->get('Data');
 		
 		//$this->pagination->setAdditionalUrlParam("month", $state->get('filter.month'));
-		$this->pagination->setAdditionalUrlParam('acc_id',$acc_id);
+//		$this->pagination->setAdditionalUrlParam('acc_id',$acc_id);
 		
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
