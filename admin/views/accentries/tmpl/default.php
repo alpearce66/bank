@@ -40,7 +40,7 @@ DEFAULT
 		<tbody>
 			<?php if (!empty($this->items)) : ?>
 				<?php foreach ($this->items as $i => $row) :
-					$link = JRoute::_('index.php?option=com_bank&task=accEntries.expenseForm&view=accEntries&acc_id='.$row->trans_id);
+					$link = JRoute::_('index.php?option=com_bank&task=accEntries.expenseForm&acc_id='.$row->trans_id);
 				?>
 					<tr>
 						<td><?php echo $this->pagination->getRowOffset($i); ?></td>

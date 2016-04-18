@@ -48,8 +48,8 @@ class BankControllerAccEntries extends JControllerAdmin
 		
 		dump($this,"In expenseForm");		
 		
-		$view = $this->getView('AccEntries','html','BankView');
-		$view->setModel( $this->getModel(), true );
+		$view = $this->getView('Expense','html','BankView');
+		$view->setModel( parent::getModel('Expense', 'BankModel', array('ignore_request' => true)), true );
 		$view->setLayout('expenseForm');
 		$view->display();	
 	}

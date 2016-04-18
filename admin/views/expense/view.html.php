@@ -11,13 +11,19 @@
 defined('_JEXEC') or die('Restricted access');
  
 /**
- * Banks View
+ * Bank View
  *
  * @since  0.0.1
  */
-class BankViewAccEntries extends JViewLegacy
+class BankViewExpense extends JViewLegacy
 {
-	 
+	/**
+	 * View form
+	 *
+	 * @var         form
+	 */
+	protected $form = null;
+ 
 	/**
 	 * Display the Bank view
 	 *
@@ -25,16 +31,14 @@ class BankViewAccEntries extends JViewLegacy
 	 *
 	 * @return  void
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		// Get data from the model
-		dump($this,"1");
-		dump($this->getLayout(),"BankViewAccEntries.display Layout");
-		dump($layout,"BankViewAccEntries.display layout");
-		$this->pagination	= $this->get('Pagination');
+		// Get the Data
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
+ 
+		dump($this->getName(), 'In expense View');
 		
-		$this->items		= $this->get('Data');
-				
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -43,9 +47,10 @@ class BankViewAccEntries extends JViewLegacy
 			return false;
 		}
  
+ 
 		// Set the toolbar
 		$this->addToolBar();
-		
+ 
 		// Display the template
 		parent::display($tpl);
 	}
@@ -59,10 +64,27 @@ class BankViewAccEntries extends JViewLegacy
 	 */
 	protected function addToolBar()
 	{
-		JToolBarHelper::title(JText::_('COM_BANK_MANAGER_BANKS'));
-		JToolBarHelper::addNew('bank.add');
-		JToolBarHelper::editList('bank.edit');
-		JToolBarHelper::deleteList('', 'banks.delete');
-		JToolBarHelper::back('bank.banks');
+		$input = JFactory::getApplication()->input;
+ 
+		// Hide Joomla Administrator Main menu
+		$input->set('hidemainmenu', true);
+ 
+		$isNew = ($this->item->id == 0);
+ 
+		if ($isNew)
+		{
+			$title = JText::_('COM_BANK_MANAGER_BANK_NEW');
+		}
+		else
+		{
+			$title = JText::_('COM_BANK_MANAGER_BANK_EDIT');
+		}
+ 
+		JToolBarHelper::title($title, 'expense');
+		JToolBarHelper::save('bank.expense');
+		JToolBarHelper::cancel(
+			'expense.cancel',
+			$isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE'
+		);
 	}
 }
