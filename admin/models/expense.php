@@ -17,6 +17,21 @@ defined('_JEXEC') or die('Restricted access');
  */
 class BankModelExpense extends JModelAdmin
 {
+	
+	var $_transIndex = 1;
+	
+	  function __construct()
+	  {
+	 	parent::__construct();
+	 
+	  	$mainframe = JFactory::getApplication();
+	 
+		// Should be recieve with the view class.
+		$acc_id = $mainframe->getUserStateFromRequest('trans_id', 'trans_id', 0, 'int');
+		$this->setState('trans_id', $acc_id);
+		
+	  }
+  
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
@@ -28,7 +43,7 @@ class BankModelExpense extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	public function getTable($type = 'alpx_bank_expense', $prefix = '', $config = array())
+	public function getTable($type = 'Expense', $prefix = 'ExpenseTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -50,7 +65,7 @@ class BankModelExpense extends JModelAdmin
 		
 		$form = $this->loadForm(
 			'com_bank.expense',
-			'bank',
+			'expense',
 			array(
 				'control' => 'jform',
 				'load_data' => $loadData
@@ -77,15 +92,58 @@ class BankModelExpense extends JModelAdmin
 		// Check the session for previously entered form data.
 		dump($this,"ExpenseForm - loadFormData");
 		$data = JFactory::getApplication()->getUserState(
-			'com_bank.edit.bank.data',
+			'com_bank.expense.data',
 			array()
 		);
  
 		dump($this,"ExpenseForm - loadFormData 1");
 		if (empty($data))
 		{
-		dump($this,"ExpenseForm - loadFormData 2");
-			$data = $this->getItem();
+			
+			// Get the data for the form.
+		dump($this,"ExpenseForm - loadFormData 2 before");
+			//$myTable = getTable();
+		
+		
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		
+		$trans_id = JFactory::getApplication()->input->get('trans_id');
+		
+		if (trans_id == null)
+		{
+			$trans_id = $this->getState('trans_id');
+		}
+		
+		// Create the base select statement.
+		$query->select('*')
+		->where($db->quoteName('trans_id')." = ".$db->quote($trans_id))
+		->from($db->quoteName('#__bank_expense'));
+		
+		dump($this,"ExpenseForm - loadFormData a1");
+		$db->setQuery($query);
+		dump($this,"ExpenseForm - loadFormData a2");
+		
+		$row = $db->loadAssoc();
+		dump($this,"ExpenseForm - loadFormData a3");
+		
+		// Check that we have a result.
+		if (empty($row))
+		{
+		dump($this,"ExpenseForm - loadFormData a4");
+			$data = false;
+		}
+		else
+		{
+		dump($this,"ExpenseForm - loadFormData a5");
+			// Bind the object with the row and return.
+			$data=$this->getTable();
+		dump($table,"ExpenseForm - loadFormData 5a");
+			$res = $data->bind($row);
+		}
+		dump($data,"ExpenseForm - loadFormData a6");
+		dump($this,"ExpenseForm - loadFormData a6");
 		}
 		dump($this,"ExpenseForm - loadFormData 3");
 		

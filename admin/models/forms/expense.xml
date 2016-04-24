@@ -2,35 +2,32 @@
 <form>
 	<fieldset>
 		<field
-				name="id"
+				name="trans_id"
 				type="hidden"
 				/>
 		<field
+				name="date"
+				type="calendar"
+				label="COM_BANK_EXPENSE_DATE_LABEL"
+				description="COM_BANK_EXPENSE_DATE_DESC"
+				size="11"
+				class="inputbox"
+				default=""
+				/>
+		<field
 				name="description"
-				type="text"
-				label="COM_BANK_BANK_GREETING_LABEL"
-				description="COM_BANK_BANK_GREETING_DESC"
+				type="textarea"
+				label="COM_BANK_EXPENSE_DESCRIPTION_LABEL"
+				description="COM_BANK_EXPENSE_DESCRIPTION_DESC"
 				size="150"
 				class="inputbox"
 				default=""
 				/>
 		<field
-				name="balance"
-				type="float"
-				label="COM_BANK_BANK_GREETING_LABEL"
-				description="COM_BANK_BANK_GREETING_DESC"
-				size="11"
-				class="inputbox"
-				default=""
-				/>
-		<field name="user_id" type="user"
-			label="User"
-			/>
-		<field
-				name="Balance"
-				type="number"
-				label="COM_BANK_BANK_GREETING_LABEL"
-				description="COM_BANK_BANK_GREETING_DESC"
+				name="amount"
+				type="text"
+				label="COM_BANK_EXPENSE_AMOUNT_LABEL"
+				description="COM_BANK_EXPENSE_AMOUNT_DESC"
 				size="11"
 				class="inputbox"
 				default=""

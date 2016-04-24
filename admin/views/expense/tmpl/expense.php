@@ -11,11 +11,10 @@
 defined('_JEXEC') or die('Restricted access');
  
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_bank&layout=edit&id=' . (int) $this->item->id); ?>"
+<form action="<?php echo JRoute::_('index.php?option=com_bank&layout=edit&trans_id=' . (int) $this->item->trans_id); ?>"
     method="post" name="adminForm" id="adminForm">
     <div class="form-horizontal">
         <fieldset class="adminform">
-            <legend><?php echo JText::_('COM_BANK_BANK_DETAILS'); ?></legend>
             <div class="row-fluid">
                 <div class="span6">
                     <?php foreach ($this->form->getFieldset() as $field): ?>
@@ -28,6 +27,6 @@ defined('_JEXEC') or die('Restricted access');
             </div>
         </fieldset>
     </div>
-    <input type="hidden" name="task" value="bank.edit" />
+    <input type="hidden" name="task" value="accentries.expenseForm" />
     <?php echo JHtml::_('form.token'); ?>
 </form>

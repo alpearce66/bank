@@ -35,9 +35,9 @@ class BankViewExpense extends JViewLegacy
 	{
 		// Get the Data
 		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
  
 		dump($this->getName(), 'In expense View');
+		dump($this, 'In expense View');
 		
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -67,17 +67,17 @@ class BankViewExpense extends JViewLegacy
 		$input = JFactory::getApplication()->input;
  
 		// Hide Joomla Administrator Main menu
-		$input->set('hidemainmenu', true);
+		$input->set('hidemainmenu', false);
  
 		$isNew = ($this->item->id == 0);
  
 		if ($isNew)
 		{
-			$title = JText::_('COM_BANK_MANAGER_BANK_NEW');
+			$title = JText::_('COM_BANK_EXPENSE_NEW');
 		}
 		else
 		{
-			$title = JText::_('COM_BANK_MANAGER_BANK_EDIT');
+			$title = JText::_('COM_BANK_EXPENSE_EDIT');
 		}
  
 		JToolBarHelper::title($title, 'expense');
