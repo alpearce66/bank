@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @since  0.0.1
  */
-class BankViewAccEntries extends JViewLegacy
+class BankViewExpenses extends JViewLegacy
 {
 	 
 	/**
@@ -29,8 +29,8 @@ class BankViewAccEntries extends JViewLegacy
 	{
 		// Get data from the model
 		dump($this,"1");
-		dump($this->getLayout(),"BankViewAccEntries.display Layout");
-		dump($layout,"BankViewAccEntries.display layout");
+		dump($this->getLayout(),"BankViewExpenses.display Layout");
+		dump($layout,"BankViewExpenses.display layout");
 		$this->pagination	= $this->get('Pagination');
 		
 		$this->items		= $this->get('Data');

@@ -73,7 +73,7 @@ class BankViewExpense extends JViewLegacy {
 		}
 		
 		JToolBarHelper::title ( $title, 'expense' );
-		JToolBarHelper::save ( 'accentries.expenseList' );
-		JToolBarHelper::cancel ( 'accentries.expenseList', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE' );
+		JToolBarHelper::save ( 'expenses.expenseList' );
+		JToolBarHelper::cancel ( 'expenses.expenseList', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE' );
 	}
 }

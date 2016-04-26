@@ -27,6 +27,6 @@ defined('_JEXEC') or die('Restricted access');
             </div>
         </fieldset>
     </div>
-    <input type="hidden" name="task" value="accentries.expenseForm" />
+    <input type="hidden" name="task" value="expense.expenseForm" />
     <?php echo JHtml::_('form.token'); ?>
 </form>

@@ -11,7 +11,7 @@
 defined('_JEXEC') or die('Restricted Access');
 ?>
 DEFAULT
-<form action="index.php?option=com_bank&view=accentries" method="post" id="adminForm" name="adminForm">
+<form action="index.php?option=com_bank&view=expenses" method="post" id="adminForm" name="adminForm">
 	<table class="table table-striped table-hover">
 		<thead>
 		<tr>
@@ -40,7 +40,7 @@ DEFAULT
 		<tbody>
 			<?php if (!empty($this->items)) : ?>
 				<?php foreach ($this->items as $i => $row) :
-					$link = JRoute::_('index.php?option=com_bank&task=accEntries.expenseForm&trans_id='.$row->trans_id);
+					$link = JRoute::_('index.php?option=com_bank&task=expense.expenseForm&trans_id='.$row->trans_id);
 				?>
 					<tr>
 						<td><?php echo $this->pagination->getRowOffset($i); ?></td>
@@ -69,6 +69,6 @@ DEFAULT
 	</table>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
-	<input type="hidden" name="view" value="accentries" />
+	<input type="hidden" name="view" value="expenses" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

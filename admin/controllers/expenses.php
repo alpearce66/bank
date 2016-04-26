@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @since  0.0.1
  */
-class BankControllerAccEntries extends JControllerAdmin
+class BankControllerExpenses extends JControllerAdmin
 {
 	/**
 	 * Proxy for getModel.
@@ -28,7 +28,7 @@ class BankControllerAccEntries extends JControllerAdmin
 	 * @since   1.6
 	 */
 	
-	public function getModel($name = 'AccEntries', $prefix = 'BankModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Expenses', $prefix = 'BankModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		
@@ -38,19 +38,8 @@ class BankControllerAccEntries extends JControllerAdmin
 	
 	public function expenseList()
 	{
-		$view = $this->getView('AccEntries','html','BankView');
+		$view = $this->getView('Expenses','html','BankView');
 		$view->setModel( $this->getModel(), true );
-		$view->display();	
-	}
-		
-	public function expenseForm()
-	{
-		
-		dump($this,"In expenseForm");		
-		
-		$view = $this->getView('Expense','html','BankView');
-		$view->setModel( parent::getModel('Expense', 'BankModel', array('ignore_request' => true)), true );
-		$view->setLayout('expenseForm');
 		$view->display();	
 	}
 		
