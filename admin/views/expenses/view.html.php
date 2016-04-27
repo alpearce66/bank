@@ -60,9 +60,9 @@ class BankViewExpenses extends JViewLegacy
 	protected function addToolBar()
 	{
 		JToolBarHelper::title(JText::_('COM_BANK_MANAGER_BANKS'));
-		JToolBarHelper::addNew('bank.add');
-		JToolBarHelper::editList('bank.edit');
-		JToolBarHelper::deleteList('', 'banks.delete');
-		JToolBarHelper::back('bank.banks');
+		JToolBarHelper::addNew('expense.add');
+		JToolBarHelper::editList('expense.edit');
+		JToolBarHelper::deleteList('', 'expenses.delete');
+		JToolBarHelper::custom('banks',"","",'Accounts');
 	}
 }
