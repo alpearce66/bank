@@ -33,35 +33,56 @@ class BankModelExpenses extends JModelList
 	  {
 	 	parent::__construct();
 	 
-	  	$mainframe = JFactory::getApplication();
-	 
-		// Get pagination request variables
-		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-		
-		// Should be recieve with the view class.
-		$acc_id = $mainframe->getUserStateFromRequest('acc_id', 'acc_id', 0, 'int');
-		
+	 	// Setup application state for list pagination.
+	 	$app = JFactory::getApplication();
+
+	 	// Get component name for use in saving state.
+	 	$option = JRequest::getVar('option');
+	 	 
+	 	// Take the list limit size from global config values.
+	 	$limit = $app->getUserStateFromRequest(
+	 					'global.list.limit',		// Key value 
+	 			 		'limit', 					// Request parameter
+	 			        $app->getCfg('list_limit'), // Default 
+	 			        'int');
+	 	
+	 	// Take the currently stored list start. This will be different
+	 	// for the bank list and expenses list.
+	 	$limitstart = $app->getUserStateFromRequest(
+	 			"$option.expenses.limitstart", 
+	 			limitstart, 
+	 			0, 
+	 			'int');
+
+	 	// Retrieve the current account ID being processed.
+	 	$acc_id = $app->getUserStateFromRequest("$option.expenses.acc_id", 'acc_id', 0, 'int');
+	 			
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 	 
-		// $this->setState('limit', $limit);
-		$this->setState('acc_id', $acc_id);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
+		// Save the state information for future use.
+		$app->setUserState("$option.expenses.acc_id", $acc_id);
+		$app->setUserState("$option.expenses.limitstart", $limitstart);
 		
 	  }
   
 	  function getData()
 	  {
+
+	  	// Setup application state for list pagination.
+	  	$app = JFactory::getApplication();
+	  	
+	 	// Get component name for use in saving state.
+	 	$option = JRequest::getVar('option');
+	 	 
 	  	// if data hasn't already been obtained, load it
 		if (empty($this->_data)) {
 
 			$query = $this->getListQuery();
-			dump($this->getState('limitstart'),"getData limitstart");
-			dump($this->getState('limit'),"getData limit");
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-	  		dump($this,"getData has data...");
+			$this->_data = $this->_getList($query, 
+					$app->getUserState("$option.expenses.limitstart"), 
+					$app->getCfg('list_limit'));
+
 			$this->_total = $this->_getListCount($query);
 		
 		}
@@ -70,6 +91,7 @@ class BankModelExpenses extends JModelList
 	  
 	  function getTotal()
 	  {
+	  	
 	  	// Load the content if it doesn't already exist
 	  	if (empty($this->_total)) {
 	  		$query = $this->getListQuery();
@@ -81,10 +103,20 @@ class BankModelExpenses extends JModelList
 	  
 	  function getPagination()
 	  {
-	  	// Load the content if it doesn't already exist
+		// Setup application state for list pagination.
+		$app = JFactory::getApplication();
+		
+	 	// Get component name for use in saving state.
+	 	$option = JRequest::getVar('option');
+	 	 
+		// Load the content if it doesn't already exist
 	  	if (empty($this->_pagination)) {
 	  		jimport('joomla.html.pagination');
-	  		$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+
+	  		$this->_pagination = new JPagination(
+	  				$this->getTotal(), 
+	  				$app->getUserState("$option.expenses.limitstart"), 
+	  				$app->getCfg('list_limit') );
 	  	}
 	  	return $this->_pagination;
 	  }
@@ -96,15 +128,24 @@ class BankModelExpenses extends JModelList
 	 */
 	protected function getListQuery()
 	{
+		
+		// Setup application state for list pagination.
+		$app = JFactory::getApplication();
+		
+		// Get component name for use in saving state.
+	 	$option = JRequest::getVar('option');
+	 	 
 		// Initialize variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		
-		$acc_id = JFactory::getApplication()->input->get('acc_id');
+		// Check for the account ID comming in on the request.
+		$acc_id = $app->input->get("acc_id");
 		
+		// If it wasn't found use the stored state.
 		if ($acc_id == null)
 		{
-			$acc_id = $this->getState('acc_id');
+			$acc_id = $app->getUserState("$option.expenses.acc_id");
 		}
 		
 		// Create the base select statement.
