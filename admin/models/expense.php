@@ -16,15 +16,19 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
  * @since 0.0.1
  */
 class BankModelExpense extends JModelAdmin {
-	var $_transIndex = 1;
+	
 	function __construct() {
+		
 		parent::__construct ();
 		
 		$mainframe = JFactory::getApplication ();
 		
 		// Should be recieve with the view class.
-		$acc_id = $mainframe->getUserStateFromRequest ( 'trans_id', 'trans_id', 0, 'int' );
-		$this->setState ( 'trans_id', $acc_id );
+		$trans_id = $mainframe->getUserStateFromRequest ( 'trans_id', 'trans_id', 0, 'int' );
+		$this->setState ( 'trans_id', $trans_id );
+	
+		dump ( $trans_id, "ExpenseForm - __construct xx" );
+		
 	}
 	
 	/**
@@ -73,7 +77,7 @@ class BankModelExpense extends JModelAdmin {
 		return $form;
 	}
 	
-	/**
+	 /**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return mixed The data for the form.
@@ -86,6 +90,8 @@ class BankModelExpense extends JModelAdmin {
 		
 		$data = JFactory::getApplication ()->getUserState ( 'com_bank.expense.data', array () );
 		
+		dump ( $data, "ExpenseForm - data " );
+		
 		if (empty ( $data )) {
 			
 			// Initialize variables.
@@ -93,6 +99,8 @@ class BankModelExpense extends JModelAdmin {
 			$query = $db->getQuery ( true );
 			
 			$trans_id = JFactory::getApplication ()->input->get ( 'trans_id' );
+
+			dump ( $trans_id, "ExpenseForm - data trans_id " );
 			
 			if (trans_id == null) {
 				$trans_id = $this->getState ( 'trans_id' );
@@ -109,23 +117,27 @@ class BankModelExpense extends JModelAdmin {
 				$data = false;
 			} else {
 				// Bind the object with the row and return.
+		dump ( $this, "get table 1 .." );
 				$data = $this->getTable ();
+		dump ( $data->getKeyName(), "get table 2 .." );
 				$res = $data->bind ( $row );
+		dump ( $this, "get table 3 .." );
 			}
 		}
-
 		
-		$mainframe = JFactory::getApplication();
-		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', 
-							$mainframe->getCfg('list_limit'), 'int');
+		$mainframe = JFactory::getApplication ();
+		dump ( $this, "get table 4 .." );
+		$limit = $mainframe->getUserStateFromRequest ( 'global.list.limit', 'limit', $mainframe->getCfg ( 'list_limit' ), 'int' );
+		dump ( $this, "get table 5 .." );
 		$limitstart1 = $mainframe->getUserStateFromRequest ( 'limitstart', 'limitstart', 0, 'int' );
-		$limitstart2 = $this->getState('limitstart');
+		dump ( $this, "get table 6 .." );
+//		$limitstart2 = $this->getState ( 'limitstart' );
+		dump ( $this, "get table 7 .." );
 		
-		dump($this,"Check pag status..");
-		dump($limitstart1,"getData limitstart1");
-		dump($limitstart2,"getData limitstart2");
-		dump($limit,"getData limit");
-		
+		dump ( $this, "Check pag status.." );
+		dump ( $limitstart1, "getData limitstart1" );
+		dump ( $limitstart2, "getData limitstart2" );
+		dump ( $limit, "getData limit" );
 		
 		return $data;
 	}

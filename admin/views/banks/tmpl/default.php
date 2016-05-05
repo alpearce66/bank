@@ -21,17 +21,14 @@ defined('_JEXEC') or die('Restricted Access');
 			<th width="45%">
 				<?php echo JText::_('COM_BANK_BANKS_ACC_NAME') ;?>
 			</th>
-			<th width="35%">
+			<th width="10%">
 				<?php echo JText::_('COM_BANK_BALANCE'); ?>
 			</th>
-			<th width="5%">
+			<th width="25%">
 				<?php echo JText::_('COM_BANK_USER'); ?>
 			</th>
-			<th width="5%">
+			<th width="17%">
 				<?php echo JText::_('COM_BANK_ENTRIES'); ?>
-			</th>
-			<th width="7%">
-				<?php echo JText::_('COM_BANK_PUBLISHED'); ?>
 			</th>
 		</tr>
 		</thead>
@@ -71,11 +68,8 @@ defined('_JEXEC') or die('Restricted Access');
 						</td>
 						<td>
 							<a href="<?php echo $entries; ?>" title="<?php echo JText::_('COM_BANK_EDIT_BANK_ACC'); ?>">
-								<?php echo "ENTRIES"; ?>
+								<?php echo "Expense list"; ?>
 							</a>
-						</td>
-						<td align="center">
-							<?php echo JHtml::_('jgrid.published', $row->published, $i, 'banks.', true, 'cb'); ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>

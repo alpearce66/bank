@@ -29,7 +29,16 @@ class BankViewBanks extends JViewLegacy
 		// Get data from the model
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
- 
+		
+		
+		$myView=$this->getName();
+		$myModel=$this->getModel();
+		$myLayout=$this->getLayout();
+		
+		dump($myView,"BankViewBanks display View");
+		dump($myModel->getName(),"BankViewBanks display Model");
+		dump($myLayout,"BankViewBanks display Layout");
+		
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

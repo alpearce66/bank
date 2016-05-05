@@ -23,6 +23,8 @@ class BankViewExpense extends JViewLegacy {
 	 */
 	protected $form = null;
 	
+	protected $item;
+	
 	/**
 	 * Display the Bank view
 	 *
@@ -33,6 +35,9 @@ class BankViewExpense extends JViewLegacy {
 	 */
 	public function display($tpl = null) {
 		// Get the Data
+		
+		//$this->item  = $this->getItem('trans_id');
+		
 		$this->form = $this->get ( 'Form' );
 		
 		// Check for errors.
@@ -62,9 +67,16 @@ class BankViewExpense extends JViewLegacy {
 		// Hide Joomla Administrator Main menu
 		$input->set ( 'hidemainmenu', false );
 		
-		dump($this,"addToolBar - start");
+		dump($input,"addToolBar - start - input");
+		dump($this,"addToolBar - start - this");
 		
-		$isNew = ($this->item->id == 0);
+		$app = JFactory::getApplication();
+		
+		// Load state from the request.
+		$pk = $app->input->getInt('grid.id');
+		dump($this,"addToolBar - start - pk");
+		
+		$isNew = ($this->item->trans_id == 0);
 		
 		if ($isNew) {
 			$title = JText::_ ( 'COM_BANK_EXPENSE_NEW' );

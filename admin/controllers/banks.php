@@ -33,4 +33,12 @@ class BankControllerBanks extends JControllerAdmin
  
 		return $model;
 	}
+	
+	public function accountList()
+	{
+		dump($this,"BankControllerBanks accountList - this");
+		$view = $this->getView('Banks','html','BankView');
+		$view->setModel( $this->getModel('Banks','BankModel'), true );
+		$view->display();
+	}
 }
