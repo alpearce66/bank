@@ -16,19 +16,18 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
  * @since 0.0.1
  */
 class BankModelExpense extends JModelAdmin {
-	
 	function __construct() {
 		
 		parent::__construct ();
 		
+		dump ( $trans_id, "ExpenseForm - __construct xx in" );
 		$mainframe = JFactory::getApplication ();
 		
 		// Should be recieve with the view class.
 		$trans_id = $mainframe->getUserStateFromRequest ( 'trans_id', 'trans_id', 0, 'int' );
 		$this->setState ( 'trans_id', $trans_id );
-	
-		dump ( $trans_id, "ExpenseForm - __construct xx" );
 		
+		dump ( $trans_id, "ExpenseForm - __construct xx out" );
 	}
 	
 	/**
@@ -77,7 +76,47 @@ class BankModelExpense extends JModelAdmin {
 		return $form;
 	}
 	
-	 /**
+
+	public function getItem() {
+	
+		// Check the session for previously entered form data.
+		dump ( $this, "ExpenseForm - returnData" );
+	
+		$data = JFactory::getApplication ()->getUserState ( 'com_bank.expense.data', array () );
+	
+		if (empty ( $data )) {
+				
+			// Initialize variables.
+			$db = JFactory::getDbo ();
+			$query = $db->getQuery ( true );
+				
+			$trans_id = JFactory::getApplication ()->input->get ( 'trans_id' );
+				
+			if (trans_id == null) {
+				$trans_id = $this->getState ( 'trans_id' );
+			}
+				
+			// Create the base select statement.
+			$query->select ( '*' )->where ( $db->quoteName ( 'trans_id' ) . " = " . $db->quote ( $trans_id ) )->from ( $db->quoteName ( '#__bank_expense' ) );
+				
+			$db->setQuery ( $query );
+			$row = $db->loadAssoc ();
+				
+			// Check that we have a result.
+			if (empty ( $row )) {
+				$data = false;
+			} else {
+				// Bind the object with the row and return.
+				$data = $this->getTable ();
+				$res = $data->bind ( $row );
+			}
+		}
+	
+		return $data;
+	}
+	
+	
+	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return mixed The data for the form.
@@ -88,56 +127,11 @@ class BankModelExpense extends JModelAdmin {
 		// Check the session for previously entered form data.
 		dump ( $this, "ExpenseForm - loadFormData" );
 		
-		$data = JFactory::getApplication ()->getUserState ( 'com_bank.expense.data', array () );
-		
-		dump ( $data, "ExpenseForm - data " );
-		
-		if (empty ( $data )) {
-			
-			// Initialize variables.
-			$db = JFactory::getDbo ();
-			$query = $db->getQuery ( true );
-			
-			$trans_id = JFactory::getApplication ()->input->get ( 'trans_id' );
-
-			dump ( $trans_id, "ExpenseForm - data trans_id " );
-			
-			if (trans_id == null) {
-				$trans_id = $this->getState ( 'trans_id' );
-			}
-			
-			// Create the base select statement.
-			$query->select ( '*' )->where ( $db->quoteName ( 'trans_id' ) . " = " . $db->quote ( $trans_id ) )->from ( $db->quoteName ( '#__bank_expense' ) );
-			
-			$db->setQuery ( $query );
-			$row = $db->loadAssoc ();
-			
-			// Check that we have a result.
-			if (empty ( $row )) {
-				$data = false;
-			} else {
-				// Bind the object with the row and return.
-		dump ( $this, "get table 1 .." );
-				$data = $this->getTable ();
-		dump ( $data->getKeyName(), "get table 2 .." );
-				$res = $data->bind ( $row );
-		dump ( $this, "get table 3 .." );
-			}
-		}
+		$data = $this->getItem();
 		
 		$mainframe = JFactory::getApplication ();
-		dump ( $this, "get table 4 .." );
 		$limit = $mainframe->getUserStateFromRequest ( 'global.list.limit', 'limit', $mainframe->getCfg ( 'list_limit' ), 'int' );
-		dump ( $this, "get table 5 .." );
 		$limitstart1 = $mainframe->getUserStateFromRequest ( 'limitstart', 'limitstart', 0, 'int' );
-		dump ( $this, "get table 6 .." );
-//		$limitstart2 = $this->getState ( 'limitstart' );
-		dump ( $this, "get table 7 .." );
-		
-		dump ( $this, "Check pag status.." );
-		dump ( $limitstart1, "getData limitstart1" );
-		dump ( $limitstart2, "getData limitstart2" );
-		dump ( $limit, "getData limit" );
 		
 		return $data;
 	}

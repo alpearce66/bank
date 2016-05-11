@@ -38,6 +38,8 @@ class BankViewExpense extends JViewLegacy {
 		
 		//$this->item  = $this->getItem('trans_id');
 		
+		dump($this,"expense display ");
+		
 		$this->form = $this->get ( 'Form' );
 		
 		// Check for errors.
