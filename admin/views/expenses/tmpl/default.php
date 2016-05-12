@@ -10,7 +10,6 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
 ?>
-DEFAULT
 <form action="index.php?option=com_bank&view=expenses" method="post" id="adminForm" name="adminForm">
 	<table class="table table-striped table-hover">
 		<thead>

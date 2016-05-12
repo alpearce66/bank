@@ -135,4 +135,50 @@ class BankModelExpense extends JModelAdmin {
 		
 		return $data;
 	}
+
+	public function save() {
+		// Check the session for previously entered form data.
+		dump ( $this, "Expense - save" );
+		
+		$table   = $this->getTable();
+		$isNew = true;
+		
+		// Load the row if saving an existing item.
+		if ($trans_id > 0)
+		{
+			$table->load($trans_id);
+			$isNew = false;
+		}
+		
+		// Bind the data.
+		if (!$table->bind($data))
+		{
+			$this->setError($table->getError());
+		
+			return false;
+		}
+		
+		// Check the data.
+		if (!$table->check())
+		{
+			$this->setError($table->getError());
+		
+			return false;
+		}
+		
+		// Store the data.
+		if (!$table->store())
+		{
+			$this->setError($table->getError());
+		
+			return false;
+		}
+		
+		// Clean the cache.
+		$this->cleanCache();
+		
+		return true;
+		
+	}
+
 }

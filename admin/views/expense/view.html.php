@@ -38,9 +38,11 @@ class BankViewExpense extends JViewLegacy {
 		
 		//$this->item  = $this->getItem('trans_id');
 		
-		dump($this,"expense display ");
-		
+		$this->item = $this->get ( 'Item' );
 		$this->form = $this->get ( 'Form' );
+		
+		dump($this,"expense display 1a");
+		dump($this->item,"expense display 1b");
 		
 		// Check for errors.
 		if (count ( $errors = $this->get ( 'Errors' ) )) {
@@ -87,7 +89,7 @@ class BankViewExpense extends JViewLegacy {
 		}
 		
 		JToolBarHelper::title ( $title, 'expense' );
-		JToolBarHelper::save ( 'expenses.expenseList' );
+		JToolBarHelper::save ( 'expense.save' );
 		JToolBarHelper::cancel ( 'expenses.expenseList', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE' );
 	}
 }
