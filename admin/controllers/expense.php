@@ -28,7 +28,7 @@ class BankControllerExpense extends JControllerForm
 		dump($this,"In expenseForm1");
 		$view->setModel( parent::getModel('Expense', 'BankModel', array('ignore_request' => true)), true );
 		dump($this,"In expenseForm2");
-		$view->setLayout('expenseForm');
+		$view->setLayout('default:expense');
 		dump($this,"In expenseForm3");
 		$view->display();
 		dump($this,"In expenseForm4");

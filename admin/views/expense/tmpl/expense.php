@@ -11,6 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
  
 ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_bank&layout=edit&trans_id=' . (int) $this->item->trans_id); ?>"
     method="post" name="adminForm" id="adminForm">
     <div class="form-horizontal">
