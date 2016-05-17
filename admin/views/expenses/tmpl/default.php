@@ -48,7 +48,7 @@ defined('_JEXEC') or die('Restricted Access');
 						</td>
 						<td>
 							<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_BANK_EDIT_BANK_ACC'); ?>">
-								<?php echo $row->date; ?>
+								<?php echo date('Y-m-d',$row->date); ?>
 							</a>
 						</td>
 						<td>

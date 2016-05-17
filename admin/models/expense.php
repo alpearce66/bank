@@ -140,7 +140,9 @@ class BankModelExpense extends JModelAdmin {
 		// Check the session for previously entered form data.
 		dump ( $data, "Expense - save" );
 		
-		$data->date.replace("-",""); 
+		//$data[date] = date( 'Y-m-d H:i:s', $data[date] );
+		$data[date] = strtotime($data[date]);
+		dump ( $data[date], "Expense - save" );
 		
 		$table   = $this->getTable();
 		$isNew = true;
