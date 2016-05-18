@@ -6,6 +6,10 @@
 				type="hidden"
 				/>
 		<field
+				name="acc_id"
+				type="hidden"
+				/>
+		<field
 				name="date"
 				type="calendar"
 				label="COM_BANK_EXPENSE_DATE_LABEL"

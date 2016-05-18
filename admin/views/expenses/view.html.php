@@ -27,12 +27,10 @@ class BankViewExpenses extends JViewLegacy
 	 */
 	function display($tpl = null)
 	{
+		dump($this,"BankViewExpenses - display in");
+
 		// Get data from the model
-		dump($this,"1");
-		dump($this->getLayout(),"BankViewExpenses.display Layout");
-		dump($layout,"BankViewExpenses.display layout");
 		$this->pagination	= $this->get('Pagination');
-		
 		$this->items		= $this->get('Data');
 				
 		// Check for errors.
@@ -48,6 +46,9 @@ class BankViewExpenses extends JViewLegacy
 		
 		// Display the template
 		parent::display($tpl);
+
+		dump($this,"BankViewExpenses - display out");
+
 	}
  
 	/**
@@ -59,10 +60,15 @@ class BankViewExpenses extends JViewLegacy
 	 */
 	protected function addToolBar()
 	{
+		dump($this,"BankViewExpenses - addToolBar out");
+
 		JToolBarHelper::title(JText::_('COM_BANK_MANAGER_BANKS'));
 		JToolBarHelper::addNew('expense.expenseForm');
 		JToolBarHelper::editList('expense.expenseForm');
 		JToolBarHelper::deleteList('', 'expenses.delete');
 		JToolBarHelper::custom('banks.accountList','refresh.png','refresh_f2.png','Accounts',false);
+		
+		dump($this,"BankViewExpenses - addToolBar out");
+
 	}
 }

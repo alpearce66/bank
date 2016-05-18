@@ -16,18 +16,27 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
  * @since 0.0.1
  */
 class BankModelExpense extends JModelAdmin {
+	
 	function __construct() {
+		
+		dump ( $this, "BankModelExpense - __construct in" );
 		
 		parent::__construct ();
 		
-		dump ( $trans_id, "ExpenseForm - __construct xx in" );
-		$mainframe = JFactory::getApplication ();
+		$app = JFactory::getApplication ();
+		
+		// Get component name for use in saving state.
+		$option = JRequest::getVar('option');
+		
+		// Clear the transaction ID as now saved.
+		$app->setUserState("$option.expenses.trans_id", 0);
+		
 		
 		// Should be recieve with the view class.
-		$trans_id = $mainframe->getUserStateFromRequest ( 'trans_id', 'trans_id', 0, 'int' );
-		$this->setState ( 'trans_id', $trans_id );
-		
-		dump ( $trans_id, "ExpenseForm - __construct xx out" );
+		$trans_id = $app->getUserStateFromRequest ( "$option.expenses.trans_id", 'trans_id',0);
+		$app->setUserState("$option.expenses.trans_id", $trans_id);
+
+		dump ( $trans_id, "BankModelExpense - __construct out" );
 	}
 	
 	/**
@@ -61,10 +70,14 @@ class BankModelExpense extends JModelAdmin {
 	 * @since 1.6
 	 */
 	public function getForm($data = array(), $loadData = true) {
-		// Get the form.
-		dump ( $this, "ExpenseForm - getForm" );
+
+		dump ( $this, "BankModelExpense - getForm in" );
 		
-		$form = $this->loadForm ( 'com_bank.expense', 'expense', array (
+		// Get component name for use in saving state.
+		$option = JRequest::getVar('option');
+		
+		// Get the form.
+		$form = $this->loadForm ( "$option.expense", 'expense', array (
 				'control' => 'jform',
 				'load_data' => $loadData 
 		) );
@@ -73,16 +86,23 @@ class BankModelExpense extends JModelAdmin {
 			return false;
 		}
 		
+		dump ( $this, "BankModelExpense - getForm out" );
+		
 		return $form;
 	}
 	
 
 	public function getItem() {
 	
-		// Check the session for previously entered form data.
-		dump ( $this, "ExpenseForm - returnData" );
+		dump ( $this, "BankModelExpense - getItem in" );
 	
-		$data = JFactory::getApplication ()->getUserState ( 'com_bank.expense.data', array () );
+		// Check the session for previously entered form data.
+		$app = JFactory::getApplication();
+
+		// Get component name for use in saving state.
+		$option = JRequest::getVar('option');
+		
+		$data = $app->getUserState ( "$option.expense.data", array () );
 	
 		if (empty ( $data )) {
 				
@@ -90,10 +110,11 @@ class BankModelExpense extends JModelAdmin {
 			$db = JFactory::getDbo ();
 			$query = $db->getQuery ( true );
 				
-			$trans_id = JFactory::getApplication ()->input->get ( 'trans_id' );
+			// Check for a trans id on the request.
+			$trans_id = $app->input->get ( 'trans_id' );
 				
-			if (trans_id == null) {
-				$trans_id = $this->getState ( 'trans_id' );
+			if ($trans_id == null) {
+				$trans_id = $app->getUserState("$option.expenses.trans_id");
 			}
 				
 			// Create the base select statement.
@@ -104,7 +125,19 @@ class BankModelExpense extends JModelAdmin {
 				
 			// Check that we have a result.
 			if (empty ( $row )) {
+				
+				// If the trans_id was non zero this is and error, transaction not found.
 				$data = false;
+				
+				// If the trans_id is zero we are adding a new record so set it up as necessary.
+				if ($trans_id == null or $trans_id == 0) {
+					$row->date = date('Y-m-d');
+					$row->acc_id = $app->getUserState("$option.expenses.acc_id");
+					$data = $this->getTable ();
+					$res = $data->bind ( $row );
+				}	
+				
+				
 			} else {
 				// Bind the object with the row and return.
 				$data = $this->getTable ();
@@ -112,6 +145,8 @@ class BankModelExpense extends JModelAdmin {
 			}
 		}
 	
+		dump ( $data, "BankModelExpense - getItem out" );
+		
 		return $data;
 	}
 	
@@ -124,25 +159,31 @@ class BankModelExpense extends JModelAdmin {
 	 * @since 1.6
 	 */
 	protected function loadFormData() {
-		// Check the session for previously entered form data.
-		dump ( $this, "ExpenseForm - loadFormData" );
+		dump ( $this, "BankModelExpense - loadFormData in" );
 		
+		// Check the session for previously entered form data.
 		$data = $this->getItem();
 		
-		$mainframe = JFactory::getApplication ();
-		$limit = $mainframe->getUserStateFromRequest ( 'global.list.limit', 'limit', $mainframe->getCfg ( 'list_limit' ), 'int' );
-		$limitstart1 = $mainframe->getUserStateFromRequest ( 'limitstart', 'limitstart', 0, 'int' );
+		$app = JFactory::getApplication ();
+		
+		$limit = $app->getUserStateFromRequest ( 'global.list.limit', 'limit', $app->getCfg ( 'list_limit' ), 'int' );
+		
+		dump ( $this, "BankModelExpense - loadFormData out" );
 		
 		return $data;
 	}
 
 	public function save($data) {
-		// Check the session for previously entered form data.
-		dump ( $data, "Expense - save" );
+
+		dump ( $this, "BankModelExpense - save in" );
+				
+		$app = JFactory::getApplication ();
 		
-		//$data[date] = date( 'Y-m-d H:i:s', $data[date] );
+		// Get component name for use in saving state.
+		$option = JRequest::getVar('option');
+		
+		// Check the session for previously entered form data.
 		$data[date] = strtotime($data[date]);
-		dump ( $data[date], "Expense - save" );
 		
 		$table   = $this->getTable();
 		$isNew = true;
@@ -158,7 +199,8 @@ class BankModelExpense extends JModelAdmin {
 		if (!$table->bind($data))
 		{
 			$this->setError($table->getError());
-		
+			dump ( $this, "BankModelExpense - save out" );
+				
 			return false;
 		}
 		
@@ -166,7 +208,8 @@ class BankModelExpense extends JModelAdmin {
 		if (!$table->check())
 		{
 			$this->setError($table->getError());
-		
+			dump ( $this, "BankModelExpense - save out" );
+				
 			return false;
 		}
 		
@@ -174,12 +217,18 @@ class BankModelExpense extends JModelAdmin {
 		if (!$table->store())
 		{
 			$this->setError($table->getError());
-		
+			dump ( $this, "BankModelExpense - save out" );
+				
 			return false;
 		}
 		
 		// Clean the cache.
 		$this->cleanCache();
+		
+		// Clear the transaction ID as now saved.
+		$app->setUserState("$option.expenses.trans_id", 0);
+		
+		dump ( $this, "BankModelExpense - save out" );
 		
 		return true;
 		

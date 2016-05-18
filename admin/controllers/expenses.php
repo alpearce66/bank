@@ -38,9 +38,30 @@ class BankControllerExpenses extends JControllerAdmin
 	
 	public function expenseList()
 	{
+
+		dump ( $this, "BankControllerExpenses - expenseList in" );
+		
 		$view = $this->getView('Expenses','html','BankView');
 		$view->setModel( $this->getModel(), true );
 		$view->display();	
+
+		dump ( $this, "BankControllerExpenses - expenseList out" );
+		
 	}
+	
+	public function delete() {
+		
+		dump ( $this, "BankControllerExpenses - delete in" );
+	
+		$view = $this->getView ( 'Expenses', 'html', 'BankView' );
+		$view->setModel ( parent::getModel ( 'Expenses', 'BankModel', array (
+				'ignore_request' => true
+		) ), true );
+		$view->display ();
+		
+		dump ( $this, "BankControllerExpenses - delete out" );
+	
+	}
+	
 		
 }

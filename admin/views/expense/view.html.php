@@ -34,15 +34,12 @@ class BankViewExpense extends JViewLegacy {
 	 * @return void
 	 */
 	public function display($tpl = null) {
+		
+		dump($this,"BankViewExpense - display in");
+		
 		// Get the Data
-		
-		//$this->item  = $this->getItem('trans_id');
-		
 		$this->item = $this->get ( 'Item' );
 		$this->form = $this->get ( 'Form' );
-		
-		dump($this,"expense display 1a");
-		dump($this->item,"expense display 1b");
 		
 		// Check for errors.
 		if (count ( $errors = $this->get ( 'Errors' ) )) {
@@ -56,6 +53,9 @@ class BankViewExpense extends JViewLegacy {
 		
 		// Display the template
 		parent::display ( $tpl );
+
+		dump($this,"BankViewExpense - display out");
+		
 	}
 	
 	/**
@@ -66,19 +66,19 @@ class BankViewExpense extends JViewLegacy {
 	 * @since 1.6
 	 */
 	protected function addToolBar() {
+
+		dump($this,"BankViewExpense - addToolBar in");
+		
 		$input = JFactory::getApplication ()->input;
 		
 		// Hide Joomla Administrator Main menu
 		$input->set ( 'hidemainmenu', false );
 		
-		dump($input,"addToolBar - start - input");
-		dump($this,"addToolBar - start - this");
 		
 		$app = JFactory::getApplication();
 		
 		// Load state from the request.
 		$pk = $app->input->getInt('grid.id');
-		dump($this,"addToolBar - start - pk");
 		
 		$isNew = ($this->item->trans_id == 0);
 		
@@ -91,5 +91,8 @@ class BankViewExpense extends JViewLegacy {
 		JToolBarHelper::title ( $title, 'expense' );
 		JToolBarHelper::save ( 'expense.save' );
 		JToolBarHelper::cancel ( 'expenses.expenseList', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE' );
+
+		dump($this,"BankViewExpense - addToolBar out");
+		
 	}
 }

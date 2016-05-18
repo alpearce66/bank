@@ -16,7 +16,7 @@ $controller = JControllerLegacy::getInstance('Bank');
 // Perform the Request task
 $controller->execute(JFactory::getApplication()->input->get('task'));
 
-dump(JFactory::getApplication()->input->get('task'), 'Testing');
+dump(JFactory::getApplication()->input->get('task'), 'Top level redirection');
  
 // Redirect if set by the controller
 $controller->redirect();

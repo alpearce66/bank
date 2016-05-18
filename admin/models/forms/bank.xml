@@ -8,29 +8,23 @@
 		<field
 				name="description"
 				type="text"
-				label="COM_BANK_BANK_GREETING_LABEL"
-				description="COM_BANK_BANK_GREETING_DESC"
+				label="COM_BANK_ACCOUNT_DESCRIPTION_LABEL"
+				description="COM_BANK_ACCOUNT_DESCRIPTION_DESC"
 				size="150"
 				class="inputbox"
 				default=""
-				/>
-		<field
-				name="balance"
-				type="float"
-				label="COM_BANK_BANK_GREETING_LABEL"
-				description="COM_BANK_BANK_GREETING_DESC"
-				size="11"
-				class="inputbox"
-				default=""
-				/>
-		<field name="user_id" type="user"
-			label="User"
-			/>
+		/>
+		<field 
+		    	name="user_id" 
+		    	type="user"
+				label="COM_BANK_ACCOUNT_OWNER_LABEL"
+				description="COM_BANK_ACCOUNT_OWNER_DESC"
+		/>
 		<field
 				name="Balance"
 				type="number"
-				label="COM_BANK_BANK_GREETING_LABEL"
-				description="COM_BANK_BANK_GREETING_DESC"
+				label="COM_BANK_ACCOUNT_BALANCE_LABEL"
+				description="COM_BANK_ACCOUNT_BALANCE_DESC"
 				size="11"
 				class="inputbox"
 				default=""

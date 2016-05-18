@@ -21,7 +21,7 @@ INSERT INTO `#__bank_acc` (`id`, `user_id`, `description`, `balance`) VALUES
 DROP TABLE IF EXISTS `#__bank_expense`;
  
 CREATE TABLE `#__bank_expense` (
-  `trans_id` int(11) NOT NULL,
+  `trans_id` int(11) NOT NULL AUTO_INCREMENT,
   `acc_id` int(11) NOT NULL,
   `payment_id` int(11) NOT NULL,
   `date` int(11) DEFAULT NULL,
@@ -1162,7 +1162,7 @@ INSERT INTO `#__bank_expense` (`trans_id`, `acc_id`, `payment_id`, `date`, `desc
 DROP TABLE IF EXISTS `#__bank_payment`;
  
 CREATE TABLE `#__bank_payment` (
-  `payment_id` int(11) NOT NULL,
+  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
   `acc_id` int(11) NOT NULL,
   `amount` float(6,2) NOT NULL DEFAULT '0.00',
   `date` int(11) DEFAULT NULL,
