@@ -30,7 +30,7 @@ CREATE TABLE `#__bank_expense` (
   `accepted` tinyint(1) NOT NULL,
   `paid` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`trans_id`),
-  KEY `user_id` (`acc_id`)
+  KEY `acc_id` (`acc_id`)
   )
 	ENGINE =MyISAM
 	AUTO_INCREMENT =0

@@ -24,7 +24,8 @@ class ExpenseTableExpense extends JTable
 	 */
 	function __construct(&$db)
 	{
-		dump($this,"ExpenseTableExpense - __construct");
+		dump($this,"ExpenseTableExpense - __construct in");
 		parent::__construct('#__bank_expense', 'trans_id', $db);
+		dump($this,"ExpenseTableExpense - __construct out");
 	}
 }

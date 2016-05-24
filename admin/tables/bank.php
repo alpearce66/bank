@@ -23,7 +23,8 @@ class BankTableBank extends JTable
 	 */
 	function __construct(&$db)
 	{
-		dump($this,"In Tables");
+		dump($this,"BankTableBank __construct in");
 		parent::__construct('#__bank_acc', 'id', $db);
+		dump($this,"BankTableBank __construct out");
 	}
 }

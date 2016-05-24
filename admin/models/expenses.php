@@ -31,7 +31,10 @@ class BankModelExpenses extends JModelList
 	
 	  function __construct()
 	  {
-	 	parent::__construct();
+
+	  	dump ( $this, "BankModelExpenses __construct in" );
+	  	
+	  	parent::__construct();
 	 
 	 	// Setup application state for list pagination.
 	 	$app = JFactory::getApplication();
@@ -64,11 +67,15 @@ class BankModelExpenses extends JModelList
 		$app->setUserState("$option.expenses.acc_id", $acc_id);
 		$app->setUserState("$option.expenses.limitstart", $limitstart);
 		
+	  	dump ( $this, "BankModelExpenses __construct out" );
+	  
 	  }
   
 	  function getData()
 	  {
 
+	  	dump ( $this, "BankModelExpenses getData in" );
+	  	
 	  	// Setup application state for list pagination.
 	  	$app = JFactory::getApplication();
 	  	
@@ -86,24 +93,69 @@ class BankModelExpenses extends JModelList
 			$this->_total = $this->_getListCount($query);
 		
 		}
+		
+		dump ( $this, "BankModelExpenses getData out" );
+		
 		return $this->_data;
+		
+	  }
+	  
+	  function deleteExpense()
+	  {
+
+	  	dump ( $this, "BankModelExpenses deleteExpense in" );
+	  	
+	  	// Setup application state for list pagination.
+		$app = JFactory::getApplication();
+		
+	 	// Get component name for use in saving state.
+	 	$option = JRequest::getVar('option');
+	 	 
+	 	$cids = JRequest::getVar('cid', null, 'default', 'array' );
+	 	dump ( $cids, "BankControllerExpenses - delete 0" );
+	 	 
+	 	
+	 	$trans_id = $app->getUserState("$option.expenses.trans_id");
+	  	$acc_id = $app->getUserState("$option.expenses.acc_id");
+	  	
+	  	dump ( $trans_id, "BankControllerExpenses - delete 1" );
+	  	dump ( $acc_id, "BankControllerExpenses - delete 2" );
+	  	
+	  	
+		// Remove the schema version
+// 		$query = $db->getQuery(true)
+// 		->delete('#__schemas')
+// 		->where('extension_id = ' . $row->extension_id);
+// 		$db->setQuery($query);
+// 		$db->execute();
+		
+	  	dump ( $this, "BankModelExpenses deleteExpense out" );
+	  	
+	  	
 	  }
 	  
 	  function getTotal()
 	  {
+	  	
+	  	dump ( $this, "BankModelExpenses getTotal in" );
 	  	
 	  	// Load the content if it doesn't already exist
 	  	if (empty($this->_total)) {
 	  		$query = $this->getListQuery();
 	  		$this->_total = $this->_getListCount($query);
 	  	}
+	  	
+	  	dump ( $this, "BankModelExpenses getTotal out" );
+	  	
 	  	return $this->_total;
 	  }
 	  
 	  
 	  function getPagination()
 	  {
-		// Setup application state for list pagination.
+	  	dump ( $this, "BankModelExpenses getPagination in" );
+	  	
+	  	// Setup application state for list pagination.
 		$app = JFactory::getApplication();
 		
 	 	// Get component name for use in saving state.
@@ -118,6 +170,9 @@ class BankModelExpenses extends JModelList
 	  				$app->getUserState("$option.expenses.limitstart"), 
 	  				$app->getCfg('list_limit') );
 	  	}
+	  	
+	  	dump ( $this->_pagination, "BankModelExpenses getPagination out" );
+	  	
 	  	return $this->_pagination;
 	  }
 	  
@@ -129,6 +184,8 @@ class BankModelExpenses extends JModelList
 	protected function getListQuery()
 	{
 		
+	  	dump ( $this->_pagination, "BankModelExpenses getListQuery in" );
+	  	
 		// Setup application state for list pagination.
 		$app = JFactory::getApplication();
 		
@@ -153,6 +210,8 @@ class BankModelExpenses extends JModelList
 		        ->where($db->quoteName('acc_id')." = ".$db->quote($acc_id))
                 ->from($db->quoteName('#__bank_expense'));
  
-		return $query;
+	  	dump ( $query, "BankModelExpenses getListQuery out" );
+                
+	  	return $query;
 	}
 }

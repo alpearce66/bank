@@ -29,16 +29,19 @@ class BankControllerBanks extends JControllerAdmin
 	 */
 	public function getModel($name = 'Bank', $prefix = 'BankModel', $config = array('ignore_request' => true))
 	{
+		dump($this,"BankControllerBanks getModel in");
 		$model = parent::getModel($name, $prefix, $config);
- 
+		dump($model,"BankControllerBanks getModel out");
+		
 		return $model;
 	}
 	
 	public function accountList()
 	{
-		dump($this,"BankControllerBanks accountList - this");
+		dump($this,"BankControllerBanks accountList in");
 		$view = $this->getView('Banks','html','BankView');
 		$view->setModel( $this->getModel('Banks','BankModel'), true );
 		$view->display();
+		dump($this,"BankControllerBanks accountList out");
 	}
 }

@@ -26,6 +26,8 @@ class BankViewBanks extends JViewLegacy
 	 */
 	function display($tpl = null)
 	{
+		dump ( $this, "BankViewBanks display in" );
+		
 		// Get data from the model
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
@@ -34,10 +36,6 @@ class BankViewBanks extends JViewLegacy
 		$myView=$this->getName();
 		$myModel=$this->getModel();
 		$myLayout=$this->getLayout();
-		
-		dump($myView,"BankViewBanks display View");
-		dump($myModel->getName(),"BankViewBanks display Model");
-		dump($myLayout,"BankViewBanks display Layout");
 		
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -52,6 +50,8 @@ class BankViewBanks extends JViewLegacy
 		
 		// Display the template
 		parent::display($tpl);
+		
+		dump ( $this, "BankViewBanks display out" );
 	}
  
 	/**
@@ -63,9 +63,13 @@ class BankViewBanks extends JViewLegacy
 	 */
 	protected function addToolBar()
 	{
+		dump ( $this, "BankViewBanks addToolBar in" );
+		
 		JToolBarHelper::title(JText::_('COM_BANK_MANAGER_BANKS'));
 		JToolBarHelper::addNew('bank.add');
 		JToolBarHelper::editList('bank.edit');
 		JToolBarHelper::deleteList('', 'banks.delete');
+		
+		dump ( $this, "BankViewBanks addToolBar out" );
 	}
 }

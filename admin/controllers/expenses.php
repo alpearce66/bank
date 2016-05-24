@@ -30,7 +30,9 @@ class BankControllerExpenses extends JControllerAdmin
 	
 	public function getModel($name = 'Expenses', $prefix = 'BankModel', $config = array('ignore_request' => true))
 	{
+		dump ( $this, "BankControllerExpenses getModel in" );
 		$model = parent::getModel($name, $prefix, $config);
+		dump ( $model, "BankControllerExpenses getModel out" );
 		
 		return $model;
 	}
@@ -39,13 +41,13 @@ class BankControllerExpenses extends JControllerAdmin
 	public function expenseList()
 	{
 
-		dump ( $this, "BankControllerExpenses - expenseList in" );
+		dump ( $this, "BankControllerExpenses expenseList in" );
 		
 		$view = $this->getView('Expenses','html','BankView');
 		$view->setModel( $this->getModel(), true );
 		$view->display();	
 
-		dump ( $this, "BankControllerExpenses - expenseList out" );
+		dump ( $this, "BankControllerExpenses expenseList out" );
 		
 	}
 	
@@ -53,11 +55,10 @@ class BankControllerExpenses extends JControllerAdmin
 		
 		dump ( $this, "BankControllerExpenses - delete in" );
 	
-		$view = $this->getView ( 'Expenses', 'html', 'BankView' );
-		$view->setModel ( parent::getModel ( 'Expenses', 'BankModel', array (
-				'ignore_request' => true
-		) ), true );
-		$view->display ();
+		$model = $this->getModel();
+		
+		$model->deleteExpense();
+		$this->expenseList();
 		
 		dump ( $this, "BankControllerExpenses - delete out" );
 	
