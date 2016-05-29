@@ -34,4 +34,5 @@ class BankModelBanks extends JModelList
  
 		return $query;
 	}
+	
 }

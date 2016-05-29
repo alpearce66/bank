@@ -29,5 +29,7 @@ defined('_JEXEC') or die('Restricted access');
         </fieldset>
     </div>
     <input type="hidden" name="task" value="expense.expenseForm" />
+	<input type="hidden" name="boxchecked" value="0"/>
+	<input type="hidden" name="view" value="expenses" />
     <?php echo JHtml::_('form.token'); ?>
 </form>

@@ -30,6 +30,7 @@ class BankModelBank extends JModelAdmin
 	 */
 	public function getTable($type = 'Bank', $prefix = 'BankTable', $config = array())
 	{
+		dump ( $this, "BankModelBank getTable in" );
 		return JTable::getInstance($type, $prefix, $config);
 	}
  
@@ -45,6 +46,7 @@ class BankModelBank extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		dump ( $this, "BankModelBank getForm in" );
 		// Get the form.
 		$form = $this->loadForm(
 			'com_bank.bank',
@@ -60,6 +62,7 @@ class BankModelBank extends JModelAdmin
 			return false;
 		}
  
+		dump ( $this, "BankModelBank getForm out" );
 		return $form;
 	}
  
@@ -72,6 +75,7 @@ class BankModelBank extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
+		dump ( $this, "BankModelBank loadFormData in" );
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState(
 			'com_bank.edit.bank.data',
@@ -83,6 +87,76 @@ class BankModelBank extends JModelAdmin
 			$data = $this->getItem();
 		}
  
+		dump ( $this, "BankModelBank loadFormData out" );
 		return $data;
 	}
+	
+	protected function validateAccountValue($account)
+	{
+		
+		dump ( $account, "BankModelBank - validateAccountValue in" );
+		
+		$expenseModel = $this->getInstance('Expenses', 'BankModel', array ('ignore_request' => true));
+		dump ( $expenseModel , "BankModelBank - validateAccountValue 0" );
+		
+		$totalValue=$expenseModel->validateAccountValue($account);
+		
+		dump ( $totalValue, "BankModelBank - validateAccountValue out" );
+		
+		return $totalValue;
+								
+	}
+	
+	function setAccountValue($account,$value)
+	{
+		
+		dump ( gettype($value), "BankModelBank - setAccountValue in" );
+		
+		if (is_double($value)) {
+			
+			$entry = new stdClass();
+			$entry->id = $account;
+			$entry->balance=$value;
+				
+			// Insert the object into the user profile table.
+			$result = JFactory::getDbo()->updateObject('#__bank_acc', $entry, 'id');
+				
+		}
+		
+		dump ( $result, "BankModelBank - setAccountValue out" );
+		
+	}
+	
+	function getAccountValue($account)
+	{
+
+		dump ( $this, "BankModelBank - getAccountValue in" );
+		
+		// Initialize variables.
+		$balance=null;
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		
+		if (is_int($account)) {
+			$query->select($db->quoteName(array('balance')));
+			$query->from($db->quoteName('#__bank_acc'));
+			$query->where($db->quoteName('id') . ' = '. $account);
+			$db->setQuery($query);
+			$balance = $db->loadResult();
+				
+		}
+
+		if ($balance == 0) {
+		dump ( $this, "BankModelBank - getAccountValue 1" );
+			$balance=$this->validateAccountValue($account);
+		dump ( $realValue, "BankModelBank - getAccountValue 2" );
+			$this->setAccountValue($account,$balance);
+		}
+		
+		dump ( $balance, "BankModelBank - getAccountValue out" );
+		
+		return $balance;
+		
+	}
+	
 }

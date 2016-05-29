@@ -39,7 +39,7 @@ defined('_JEXEC') or die('Restricted Access');
 		<tbody>
 			<?php if (!empty($this->items)) : ?>
 				<?php foreach ($this->items as $i => $row) :
-					$link = JRoute::_('index.php?option=com_bank&task=expense.expenseForm&trans_id='.$row->trans_id);
+					$link = JRoute::_('index.php?option=com_bank&task=expense.expenseForm&cid[]='.$row->trans_id);
 				?>
 					<tr>
 						<td><?php echo $this->pagination->getRowOffset($i); ?></td>

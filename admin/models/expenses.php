@@ -29,7 +29,12 @@ class BankModelExpenses extends JModelList
 	 */
 	var $_pagination = null;
 	
-	  function __construct()
+	public function getTable($type = 'Expense', $prefix = 'ExpenseTable', $config = array()) {
+		return JTable::getInstance ( $type, $prefix, $config );
+	}
+	
+	
+	function __construct()
 	  {
 
 	  	dump ( $this, "BankModelExpenses __construct in" );
@@ -105,32 +110,51 @@ class BankModelExpenses extends JModelList
 
 	  	dump ( $this, "BankModelExpenses deleteExpense in" );
 	  	
+	 	$cids = JRequest::getVar('cid', null, 'default', 'array' );
+	 	
 	  	// Setup application state for list pagination.
-		$app = JFactory::getApplication();
-		
+	  	$app = JFactory::getApplication();
+	  	
 	 	// Get component name for use in saving state.
 	 	$option = JRequest::getVar('option');
-	 	 
-	 	$cids = JRequest::getVar('cid', null, 'default', 'array' );
-	 	dump ( $cids, "BankControllerExpenses - delete 0" );
-	 	 
 	 	
-	 	$trans_id = $app->getUserState("$option.expenses.trans_id");
-	  	$acc_id = $app->getUserState("$option.expenses.acc_id");
+	 	// 	$trans_id = (int)$cids[0]; 
 	  	
-	  	dump ( $trans_id, "BankControllerExpenses - delete 1" );
-	  	dump ( $acc_id, "BankControllerExpenses - delete 2" );
-	  	
-	  	
-		// Remove the schema version
-// 		$query = $db->getQuery(true)
-// 		->delete('#__schemas')
-// 		->where('extension_id = ' . $row->extension_id);
-// 		$db->setQuery($query);
-// 		$db->execute();
-		
+	 	$bankModel = $this->getInstance('Bank', 'BankModel', array ('ignore_request' => true));
+	 	dump ( $bankModel , "BankModelExpenses deleteExpense 0" );
+	 		
+	 	$db    = JFactory::getDbo();
+			
+	 	foreach ($cids as $trans_id) {
+	 	
+	 	dump ( $trans_id , "BankModelExpenses deleteExpense 1" );
+	 		$table   = $this->getTable();
+	 		$table->load($trans_id);
+ 			$currentAmount=$table->amount;
+ 			dump ( $currentAmount , "BankModelExpenses deleteExpense 1a" );
+ 			
+	 		// Update the balance.
+	 		$acc_id = $app->getUserState("$option.expenses.acc_id");
+	 	dump ( $acc_id , "BankModelExpenses deleteExpense 1b" );
+	 		$acc_value = $bankModel->getAccountValue($acc_id) - $currentAmount;
+	 	dump ( $acc_value , "BankModelExpenses deleteExpense 1c" );
+	 		$bankModel->setAccountValue($acc_id,$acc_value);
+	 		dump ( $currentAmount, "BankModelExpenses - deleteExpense 1d" );
+	 		
+	 		// Remove the seltected transaction
+	 		$query = $db->getQuery(true)
+	 		->delete('#__bank_expense')
+	 		->where($db->quoteName('trans_id')." = ".$db->quote($trans_id));
+	 		$db->setQuery($query);
+	 		$db->execute();
+	 		
+	 		 
+	 		
+	 	
+	 	
+	 	}
+	 		
 	  	dump ( $this, "BankModelExpenses deleteExpense out" );
-	  	
 	  	
 	  }
 	  
@@ -210,8 +234,44 @@ class BankModelExpenses extends JModelList
 		        ->where($db->quoteName('acc_id')." = ".$db->quote($acc_id))
                 ->from($db->quoteName('#__bank_expense'));
  
-	  	dump ( $query, "BankModelExpenses getListQuery out" );
+	  	dump ( $acc_id, "BankModelExpenses getListQuery out" );
                 
 	  	return $query;
 	}
+	
+	function validateAccountValue($account)
+	{
+	
+		dump ( gettype($value), "BankModelExpenses - validateAccountValue in" );
+	
+	
+		// Setup application state for list pagination.
+		$app = JFactory::getApplication();
+		
+		// Get component name for use in saving state.
+	 	$option = JRequest::getVar('option');
+	 	 
+		$db = JFactory::getDbo ();
+		$query = $db->getQuery ( true );
+	
+		// Create the base select statement.
+		$query->select ( '*' )
+		->where ( $db->quoteName ( 'acc_id' ) . " = " . $db->quote ( $account ) )
+		->from ( $db->quoteName ( '#__bank_expense' ) );
+	
+		$db->setQuery ( $query );
+		$row = $db->loadObject ();
+		$totalValue = 0;
+	
+		while ($row) {
+			$totalValue+=$row->amount;
+			$row = $db->loadNextObject();
+		}
+	
+		dump ( $totalValue, "BankModelExpenses - validateAccountValue out" );
+	
+		return $totalValue;
+	
+	}
+	
 }

@@ -102,6 +102,9 @@ class BankModelExpense extends JModelAdmin {
 		// Get component name for use in saving state.
 		$option = JRequest::getVar('option');
 		
+		$cids = $app->getUserStateFromRequest ( '', 'cid', null, 'array' );
+		$trans_id = (int)$cids[0];
+		
 		$data = $app->getUserState ( "$option.expense.data", array () );
 	
 		if (empty ( $data )) {
@@ -111,7 +114,7 @@ class BankModelExpense extends JModelAdmin {
 			$query = $db->getQuery ( true );
 				
 			// Check for a trans id on the request.
-			$trans_id = $app->input->get ( 'trans_id' );
+			//$trans_id = $app->input->get ( 'trans_id' );
 				
 			if ($trans_id == null) {
 				$trans_id = $app->getUserState("$option.expenses.trans_id");
@@ -182,17 +185,25 @@ class BankModelExpense extends JModelAdmin {
 		// Get component name for use in saving state.
 		$option = JRequest::getVar('option');
 		
+		$trans_id = $app->getUserState("$option.expenses.trans_id");
+		dump ( $trans_id, "BankModelExpense - save 0c" );
+		
 		// Check the session for previously entered form data.
 		$data[date] = strtotime($data[date]);
 		
 		$table   = $this->getTable();
 		$isNew = true;
+		$currentAmount=0;
 		
 		// Load the row if saving an existing item.
 		if ($trans_id > 0)
 		{
 			$table->load($trans_id);
 			$isNew = false;
+			
+			// Take into account any change in amount.
+			$currentAmount=$table->amount;
+			
 		}
 		
 		// Bind the data.
@@ -224,6 +235,21 @@ class BankModelExpense extends JModelAdmin {
 		
 		// Clean the cache.
 		$this->cleanCache();
+		
+		$bankModel = $this->getInstance('Bank', 'BankModel', array ('ignore_request' => true));
+		dump ( $bankModel , "BankModelExpense - save 0" );
+		
+		// Update the balance.
+		$acc_id = $app->getUserState("$option.expenses.acc_id");
+		$acc_value = $bankModel->getAccountValue($acc_id) + $data[amount] - $currentAmount;
+		dump ( $table , "BankModelExpense - save 0a" );
+		dump ( $isNew , "BankModelExpense - save 0b" );
+		dump ( $bankModel , "BankModelExpense - save 0" );
+		
+		dump ( $acc_id, "BankModelExpense - save 1" );
+		dump ( $acc_value, "BankModelExpense - save 2" );
+		
+		$bankModel->setAccountValue($acc_id,$acc_value);
 		
 		// Clear the transaction ID as now saved.
 		$app->setUserState("$option.expenses.trans_id", 0);
