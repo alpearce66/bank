@@ -47,9 +47,13 @@ class BankModelBank extends JModelAdmin
 	public function getForm($data = array(), $loadData = true)
 	{
 		dump ( $this, "BankModelBank getForm in" );
+
+		$app = JFactory::getApplication ();
+		$option = JRequest::getVar('option');
+
 		// Get the form.
 		$form = $this->loadForm(
-			'com_bank.bank',
+			"$option.bank.edit.form",
 			'bank',
 			array(
 				'control' => 'jform',
@@ -62,6 +66,7 @@ class BankModelBank extends JModelAdmin
 			return false;
 		}
  
+		
 		dump ( $this, "BankModelBank getForm out" );
 		return $form;
 	}
@@ -76,18 +81,25 @@ class BankModelBank extends JModelAdmin
 	protected function loadFormData()
 	{
 		dump ( $this, "BankModelBank loadFormData in" );
+
+		$app = JFactory::getApplication ();
+		$option = JRequest::getVar('option');
+
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState(
-			'com_bank.edit.bank.data',
-			array()
+			"$option.bank.edit.form", array()
 		);
  
 		if (empty($data))
 		{
-			$data = $this->getItem();
+
+			$acc_id = $app->getUserStateFromRequest ( "$option.banks.acc_id", 'id',0);
+			$data = $this->getItem($acc_id);
+			$app->setUserState("$option.banks.acc_id", $acc_id);
+				
 		}
  
-		dump ( $this, "BankModelBank loadFormData out" );
+		dump ( $data, "BankModelBank loadFormData out" );
 		return $data;
 	}
 	
@@ -146,13 +158,6 @@ class BankModelBank extends JModelAdmin
 				
 		}
 
-		if ($balance == 0) {
-		dump ( $this, "BankModelBank - getAccountValue 1" );
-			$balance=$this->validateAccountValue($account);
-		dump ( $realValue, "BankModelBank - getAccountValue 2" );
-			$this->setAccountValue($account,$balance);
-		}
-		
 		dump ( $balance, "BankModelBank - getAccountValue out" );
 		
 		return $balance;

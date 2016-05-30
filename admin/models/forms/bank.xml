@@ -21,7 +21,7 @@
 				description="COM_BANK_ACCOUNT_OWNER_DESC"
 		/>
 		<field
-				name="Balance"
+				name="balance"
 				type="number"
 				label="COM_BANK_ACCOUNT_BALANCE_LABEL"
 				description="COM_BANK_ACCOUNT_BALANCE_DESC"

@@ -186,7 +186,6 @@ class BankModelExpense extends JModelAdmin {
 		$option = JRequest::getVar('option');
 		
 		$trans_id = $app->getUserState("$option.expenses.trans_id");
-		dump ( $trans_id, "BankModelExpense - save 0c" );
 		
 		// Check the session for previously entered form data.
 		$data[date] = strtotime($data[date]);
@@ -237,18 +236,10 @@ class BankModelExpense extends JModelAdmin {
 		$this->cleanCache();
 		
 		$bankModel = $this->getInstance('Bank', 'BankModel', array ('ignore_request' => true));
-		dump ( $bankModel , "BankModelExpense - save 0" );
 		
 		// Update the balance.
 		$acc_id = $app->getUserState("$option.expenses.acc_id");
 		$acc_value = $bankModel->getAccountValue($acc_id) + $data[amount] - $currentAmount;
-		dump ( $table , "BankModelExpense - save 0a" );
-		dump ( $isNew , "BankModelExpense - save 0b" );
-		dump ( $bankModel , "BankModelExpense - save 0" );
-		
-		dump ( $acc_id, "BankModelExpense - save 1" );
-		dump ( $acc_value, "BankModelExpense - save 2" );
-		
 		$bankModel->setAccountValue($acc_id,$acc_value);
 		
 		// Clear the transaction ID as now saved.

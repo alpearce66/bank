@@ -127,19 +127,14 @@ class BankModelExpenses extends JModelList
 			
 	 	foreach ($cids as $trans_id) {
 	 	
-	 	dump ( $trans_id , "BankModelExpenses deleteExpense 1" );
 	 		$table   = $this->getTable();
 	 		$table->load($trans_id);
  			$currentAmount=$table->amount;
- 			dump ( $currentAmount , "BankModelExpenses deleteExpense 1a" );
  			
 	 		// Update the balance.
 	 		$acc_id = $app->getUserState("$option.expenses.acc_id");
-	 	dump ( $acc_id , "BankModelExpenses deleteExpense 1b" );
 	 		$acc_value = $bankModel->getAccountValue($acc_id) - $currentAmount;
-	 	dump ( $acc_value , "BankModelExpenses deleteExpense 1c" );
 	 		$bankModel->setAccountValue($acc_id,$acc_value);
-	 		dump ( $currentAmount, "BankModelExpenses - deleteExpense 1d" );
 	 		
 	 		// Remove the seltected transaction
 	 		$query = $db->getQuery(true)
@@ -147,10 +142,6 @@ class BankModelExpenses extends JModelList
 	 		->where($db->quoteName('trans_id')." = ".$db->quote($trans_id));
 	 		$db->setQuery($query);
 	 		$db->execute();
-	 		
-	 		 
-	 		
-	 	
 	 	
 	 	}
 	 		
@@ -242,7 +233,7 @@ class BankModelExpenses extends JModelList
 	function validateAccountValue($account)
 	{
 	
-		dump ( gettype($value), "BankModelExpenses - validateAccountValue in" );
+		dump ( $account, "BankModelExpenses - validateAccountValue in" );
 	
 	
 		// Setup application state for list pagination.
@@ -260,7 +251,7 @@ class BankModelExpenses extends JModelList
 		->from ( $db->quoteName ( '#__bank_expense' ) );
 	
 		$db->setQuery ( $query );
-		$row = $db->loadObject ();
+		$row = $db->loadNextObject ();
 		$totalValue = 0;
 	
 		while ($row) {

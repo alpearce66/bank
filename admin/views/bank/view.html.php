@@ -33,13 +33,21 @@ class BankViewBank extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+
+		// Determine the account id being used.
+		$app = JFactory::getApplication ();
+		$option = JRequest::getVar('option');
+		$acc_id = $app->getUserStateFromRequest ( "$option.banks.acc_id", 'id',0);
+		
+		// Update the balance if expenses model is visible
+		if (!is_null($this->getModel("Expenses"))) {
+			$balance=$this->getModel("Expenses")->validateAccountValue($acc_id);
+			$this->getModel()->setAccountValue($acc_id,$balance);
+		}
+		
 		// Get the Data
 		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
- 
-		dump($this->getName(), 'In bank View');
-		
-		
+		$this->item = $this->getModel()->getItem($acc_id);
 		
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -72,8 +80,9 @@ class BankViewBank extends JViewLegacy
 		$input = JFactory::getApplication()->input;
  
 		// Hide Joomla Administrator Main menu
-		$input->set('hidemainmenu', true);
- 
+		// $input->set('hidemainmenu', true);
+		$input->set('hidemainmenu', false);
+		
 		$isNew = ($this->item->id == 0);
  
 		if ($isNew)
@@ -86,10 +95,12 @@ class BankViewBank extends JViewLegacy
 		}
  
 		JToolBarHelper::title($title, 'bank');
+		JToolBarHelper::custom('bank.accountValue','refresh.png','refresh_f2.png','Value',false);
 		JToolBarHelper::save('bank.save');
 		JToolBarHelper::cancel(
 			'bank.cancel',
 			$isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE'
 		);
+		
 	}
 }
