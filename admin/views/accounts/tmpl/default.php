@@ -10,7 +10,7 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
 ?>
-<form action="index.php?option=com_bank&view=banks" method="post" id="adminForm" name="adminForm">
+<form action="index.php?option=com_bank&view=accounts" method="post" id="adminForm" name="adminForm">
 	<table class="table table-striped table-hover">
 		<thead>
 		<tr>
@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php echo JHtml::_('grid.checkall'); ?>
 			</th>
 			<th width="45%">
-				<?php echo JText::_('COM_BANK_BANKS_ACC_NAME') ;?>
+				<?php echo JText::_('COM_BANK_ACCOUNT_NAME') ;?>
 			</th>
 			<th width="10%">
 				<?php echo JText::_('COM_BANK_BALANCE'); ?>
@@ -42,7 +42,7 @@ defined('_JEXEC') or die('Restricted Access');
 		<tbody>
 			<?php if (!empty($this->items)) : ?>
 				<?php foreach ($this->items as $i => $row) :
-					$link = JRoute::_('index.php?option=com_bank&task=bank.edit&id=' . $row->id);
+					$link = JRoute::_('index.php?option=com_bank&task=account.edit&id=' . $row->id);
 					$entries = JRoute::_('index.php?option=com_bank&task=expenses.expenseList&view=expenses&acc_id='.$row->id);
 				?>
 					<tr>
@@ -51,23 +51,23 @@ defined('_JEXEC') or die('Restricted Access');
 							<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 						</td>
 						<td>
-							<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_BANK_EDIT_BANK_ACC'); ?>">
+							<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_BANK_EDIT_ACCOUNT'); ?>">
 								<?php echo $row->description; ?>
 							</a>
 						</td>
 						<td>
-							<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_BANK_EDIT_BANK_ACC'); ?>">
+							<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_BANK_EDIT_ACCOUNT'); ?>">
 								<?php echo $row->balance; ?>
 							</a>
 						</td>
 						<td>
 							<?php $theUser = JFactory::getUser($row->user_id); ?>
-							<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_BANK_EDIT_BANK_ACC'); ?>">
+							<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_BANK_EDIT_ACCOUNT'); ?>">
 								<?php echo $theUser->name; ?>
 							</a>
 						</td>
 						<td>
-							<a href="<?php echo $entries; ?>" title="<?php echo JText::_('COM_BANK_EDIT_BANK_ACC'); ?>">
+							<a href="<?php echo $entries; ?>" title="<?php echo JText::_('COM_BANK_EDIT_ACCOUNT'); ?>">
 								<?php echo "Expense list"; ?>
 							</a>
 						</td>

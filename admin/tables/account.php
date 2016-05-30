@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @since  0.0.1
  */
-class BankTableBank extends JTable
+class AccountTableBank extends JTable
 {
 	/**
 	 * Constructor
@@ -23,8 +23,8 @@ class BankTableBank extends JTable
 	 */
 	function __construct(&$db)
 	{
-		dump($this,"BankTableBank __construct in");
+		dump($this,"AccountTableBank __construct in");
 		parent::__construct('#__bank_acc', 'id', $db);
-		dump($this,"BankTableBank __construct out");
+		dump($this,"AccountTableBank __construct out");
 	}
 }

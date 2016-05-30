@@ -27,6 +27,6 @@ defined('_JEXEC') or die('Restricted access');
             </div>
         </fieldset>
     </div>
-    <input type="hidden" name="task" value="bank.edit" />
+    <input type="hidden" name="task" value="account.edit" />
     <?php echo JHtml::_('form.token'); ?>
 </form>

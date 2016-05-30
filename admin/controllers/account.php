@@ -16,20 +16,20 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_bank
  * @since       0.0.9
  */
-class BankControllerBank extends JControllerForm
+class BankControllerAccount extends JControllerForm
 {
 
 	public function accountValue()
 	{
-		dump($this,"BankControllerBank accountValue in");
-		$view = $this->getView('Bank','html','BankView');
+		dump($this,"BankControllerAccount accountValue in");
+		$view = $this->getView('Account','html','BankView');
 		$view->setLayout ( 'default:edit' );
 		
-		$view->setModel( $this->getModel('Bank','BankModel'), true );
+		$view->setModel( $this->getModel('Account','BankModel'), true );
 		$view->setModel( $this->getModel('Expenses','BankModel'),false);
 		$view->display();
 
-		dump($this,"BankControllerBank accountValue out");
+		dump($this,"BankControllerAccount accountValue out");
 	}
 	
 	

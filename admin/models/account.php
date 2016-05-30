@@ -11,11 +11,11 @@
 defined('_JEXEC') or die('Restricted access');
  
 /**
- * Bank Model
+ * Account Model
  *
  * @since  0.0.1
  */
-class BankModelBank extends JModelAdmin
+class BankModelAccount extends JModelAdmin
 {
 	/**
 	 * Method to get a table object, load it if necessary.
@@ -30,7 +30,7 @@ class BankModelBank extends JModelAdmin
 	 */
 	public function getTable($type = 'Bank', $prefix = 'BankTable', $config = array())
 	{
-		dump ( $this, "BankModelBank getTable in" );
+		dump ( $this, "BankModelAccount getTable in" );
 		return JTable::getInstance($type, $prefix, $config);
 	}
  
@@ -46,15 +46,15 @@ class BankModelBank extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		dump ( $this, "BankModelBank getForm in" );
+		dump ( $this, "BankModelAccount getForm in" );
 
 		$app = JFactory::getApplication ();
 		$option = JRequest::getVar('option');
 
 		// Get the form.
 		$form = $this->loadForm(
-			"$option.bank.edit.form",
-			'bank',
+			"$option.account.edit.form",
+			'account',
 			array(
 				'control' => 'jform',
 				'load_data' => $loadData
@@ -67,7 +67,7 @@ class BankModelBank extends JModelAdmin
 		}
  
 		
-		dump ( $this, "BankModelBank getForm out" );
+		dump ( $this, "BankModelAccount getForm out" );
 		return $form;
 	}
  
@@ -80,40 +80,38 @@ class BankModelBank extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
-		dump ( $this, "BankModelBank loadFormData in" );
+		dump ( $this, "BankModelAccount loadFormData in" );
 
 		$app = JFactory::getApplication ();
 		$option = JRequest::getVar('option');
 
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState(
-			"$option.bank.edit.form", array()
+			"$option.account.edit.form", array()
 		);
  
 		if (empty($data))
 		{
 
-			$acc_id = $app->getUserStateFromRequest ( "$option.banks.acc_id", 'id',0);
+			$acc_id = $app->getUserStateFromRequest ( "$option.accounts.acc_id", 'id',0);
 			$data = $this->getItem($acc_id);
-			$app->setUserState("$option.banks.acc_id", $acc_id);
+			$app->setUserState("$option.accounts.acc_id", $acc_id);
 				
 		}
  
-		dump ( $data, "BankModelBank loadFormData out" );
+		dump ( $data, "BankModelAccount loadFormData out" );
 		return $data;
 	}
 	
 	protected function validateAccountValue($account)
 	{
 		
-		dump ( $account, "BankModelBank - validateAccountValue in" );
+		dump ( $account, "BankModelAccount - validateAccountValue in" );
 		
 		$expenseModel = $this->getInstance('Expenses', 'BankModel', array ('ignore_request' => true));
-		dump ( $expenseModel , "BankModelBank - validateAccountValue 0" );
-		
 		$totalValue=$expenseModel->validateAccountValue($account);
 		
-		dump ( $totalValue, "BankModelBank - validateAccountValue out" );
+		dump ( $totalValue, "BankModelAccount - validateAccountValue out" );
 		
 		return $totalValue;
 								
@@ -122,7 +120,7 @@ class BankModelBank extends JModelAdmin
 	function setAccountValue($account,$value)
 	{
 		
-		dump ( gettype($value), "BankModelBank - setAccountValue in" );
+		dump ( gettype($value), "BankModelAccount - setAccountValue in" );
 		
 		if (is_double($value)) {
 			
@@ -135,14 +133,14 @@ class BankModelBank extends JModelAdmin
 				
 		}
 		
-		dump ( $result, "BankModelBank - setAccountValue out" );
+		dump ( $result, "BankModelAccount - setAccountValue out" );
 		
 	}
 	
 	function getAccountValue($account)
 	{
 
-		dump ( $this, "BankModelBank - getAccountValue in" );
+		dump ( $this, "BankModelAccount - getAccountValue in" );
 		
 		// Initialize variables.
 		$balance=null;
@@ -158,7 +156,7 @@ class BankModelBank extends JModelAdmin
 				
 		}
 
-		dump ( $balance, "BankModelBank - getAccountValue out" );
+		dump ( $balance, "BankModelAccount - getAccountValue out" );
 		
 		return $balance;
 		

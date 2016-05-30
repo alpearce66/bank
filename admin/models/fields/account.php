@@ -13,18 +13,18 @@ defined('_JEXEC') or die('Restricted access');
 JFormHelper::loadFieldClass('list');
  
 /**
- * Bank Form Field class for the Bank component
+ * Account Form Field class for the Bank component
  *
  * @since  0.0.1
  */
-class JFormFieldBank extends JFormFieldList
+class JFormFieldAccount extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
 	 * @var         string
 	 */
-	protected $type = 'Bank';
+	protected $type = 'Account';
  
 	/**
 	 * Method to get a list of options for a list input.

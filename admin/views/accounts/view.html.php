@@ -15,10 +15,10 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @since  0.0.1
  */
-class BankViewBanks extends JViewLegacy
+class BankViewAccounts extends JViewLegacy
 {
 	/**
-	 * Display the Bank view
+	 * Display the Accounts view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
@@ -26,7 +26,7 @@ class BankViewBanks extends JViewLegacy
 	 */
 	function display($tpl = null)
 	{
-		dump ( $this, "BankViewBanks display in" );
+		dump ( $this, "BankViewAccounts display in" );
 		
 		// Get data from the model
 		$this->items		= $this->get('Items');
@@ -51,7 +51,7 @@ class BankViewBanks extends JViewLegacy
 		// Display the template
 		parent::display($tpl);
 		
-		dump ( $this, "BankViewBanks display out" );
+		dump ( $this, "BankViewAccounts display out" );
 	}
  
 	/**
@@ -63,13 +63,13 @@ class BankViewBanks extends JViewLegacy
 	 */
 	protected function addToolBar()
 	{
-		dump ( $this, "BankViewBanks addToolBar in" );
+		dump ( $this, "BankViewAccounts addToolBar in" );
 		
-		JToolBarHelper::title(JText::_('COM_BANK_MANAGER_BANKS'));
-		JToolBarHelper::addNew('bank.add');
-		JToolBarHelper::editList('bank.edit');
-		JToolBarHelper::deleteList('', 'banks.delete');
+		JToolBarHelper::title(JText::_('COM_BANK_MANAGER_ACCOUNTS'));
+		JToolBarHelper::addNew('account.add');
+		JToolBarHelper::editList('account.edit');
+		JToolBarHelper::deleteList('', 'accounts.delete');
 		
-		dump ( $this, "BankViewBanks addToolBar out" );
+		dump ( $this, "BankViewAccounts addToolBar out" );
 	}
 }

@@ -62,7 +62,7 @@ class BankViewExpenses extends JViewLegacy
 	{
 		dump($this,"BankViewExpenses - addToolBar out");
 
-		JToolBarHelper::title(JText::_('COM_BANK_MANAGER_BANKS'));
+		JToolBarHelper::title(JText::_('COM_BANK_MANAGE_ACCOUNT'));
 		JToolBarHelper::addNew('expense.expenseForm');
 		JToolBarHelper::editList('expense.expenseForm');
 		JToolBarHelper::deleteList('', 'expenses.delete');

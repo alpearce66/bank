@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @since  0.0.1
  */
-class BankViewBank extends JViewLegacy
+class BankViewAccount extends JViewLegacy
 {
 	/**
 	 * View form
@@ -37,7 +37,7 @@ class BankViewBank extends JViewLegacy
 		// Determine the account id being used.
 		$app = JFactory::getApplication ();
 		$option = JRequest::getVar('option');
-		$acc_id = $app->getUserStateFromRequest ( "$option.banks.acc_id", 'id',0);
+		$acc_id = $app->getUserStateFromRequest ( "$option.accounts.acc_id", 'id',0);
 		
 		// Update the balance if expenses model is visible
 		if (!is_null($this->getModel("Expenses"))) {
@@ -61,8 +61,8 @@ class BankViewBank extends JViewLegacy
 		// Set the toolbar
 		$this->addToolBar();
  
-		dump($this, 'Bank Testing');
-		dump($tpl, 'Bank Testing');
+		dump($this, 'Account Testing');
+		dump($tpl, 'Account Testing');
 		
 		// Display the template
 		parent::display($tpl);
@@ -87,18 +87,18 @@ class BankViewBank extends JViewLegacy
  
 		if ($isNew)
 		{
-			$title = JText::_('COM_BANK_MANAGER_BANK_NEW');
+			$title = JText::_('COM_BANK_MANAGER_ACCOUNT_NEW');
 		}
 		else
 		{
-			$title = JText::_('COM_BANK_MANAGER_BANK_EDIT');
+			$title = JText::_('COM_BANK_MANAGER_ACCOUNT_EDIT');
 		}
  
-		JToolBarHelper::title($title, 'bank');
-		JToolBarHelper::custom('bank.accountValue','refresh.png','refresh_f2.png','Value',false);
-		JToolBarHelper::save('bank.save');
+		JToolBarHelper::title($title, 'account');
+		JToolBarHelper::custom('account.accountValue','refresh.png','refresh_f2.png','Value',false);
+		JToolBarHelper::save('account.save');
 		JToolBarHelper::cancel(
-			'bank.cancel',
+			'account.cancel',
 			$isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE'
 		);
 		
