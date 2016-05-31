@@ -28,10 +28,12 @@ class BankModelAccount extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	public function getTable($type = 'Bank', $prefix = 'BankTable', $config = array())
+	public function getTable($type = 'Account', $prefix = 'BankTable', $config = array())
 	{
 		dump ( $this, "BankModelAccount getTable in" );
-		return JTable::getInstance($type, $prefix, $config);
+		$table = JTable::getInstance($type, $prefix, $config);
+		dump ( $table, "BankModelAccount getTable out" );
+		return $table;
 	}
  
 	/**

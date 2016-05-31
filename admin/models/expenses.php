@@ -120,7 +120,7 @@ class BankModelExpenses extends JModelList
 	 	
 	 	// 	$trans_id = (int)$cids[0]; 
 	  	
-	 	$bankModel = $this->getInstance('Bank', 'BankModel', array ('ignore_request' => true));
+	 	$bankModel = $this->getInstance('Account', 'BankModel', array ('ignore_request' => true));
 	 	dump ( $bankModel , "BankModelExpenses deleteExpense 0" );
 	 		
 	 	$db    = JFactory::getDbo();

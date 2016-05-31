@@ -26,11 +26,11 @@ class BankControllerExpense extends JControllerForm {
 		$view = $this->getView ( 'Expense', 'html', 'BankView' );
 		$view->setModel ( $model, true );
 		$view->setLayout ( 'default:expense' );
-
-		$bank = parent::getModel ( 'Bank', 'BankModel', array ('ignore_request' => true) );		
-		$bank->_name = 'model_bank';
-		$view->setModel( $bank );		
-				
+		
+		$account = parent::getModel ( 'Account', 'BankModel', array ('ignore_request' => true) );		
+		$account->_name = 'model_account';
+		$view->setModel( $account );		
+		
 		$view->display ();
 		
 		dump ( $this, "BankControllerExpense - expenseForm out" );

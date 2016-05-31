@@ -29,11 +29,13 @@ class BankModelExpense extends JModelAdmin {
 		$option = JRequest::getVar('option');
 		
 		// Clear the transaction ID as now saved.
-		$app->setUserState("$option.expenses.trans_id", 0);
-		
+		$trans_id = $app->input->get('trans_id', null, 'int');
+		if (is_null($trans_id)) {
+			$cids = $app->input->get('cid', null, 'array');
+			$trans_id = $cids[0];
+		}
 		
 		// Should be recieve with the view class.
-		$trans_id = $app->getUserStateFromRequest ( "$option.expenses.trans_id", 'trans_id',0);
 		$app->setUserState("$option.expenses.trans_id", $trans_id);
 
 		dump ( $trans_id, "BankModelExpense - __construct out" );
@@ -193,16 +195,16 @@ class BankModelExpense extends JModelAdmin {
 		$table   = $this->getTable();
 		$isNew = true;
 		$currentAmount=0;
-		
+
 		// Load the row if saving an existing item.
 		if ($trans_id > 0)
 		{
 			$table->load($trans_id);
 			$isNew = false;
-			
+				
 			// Take into account any change in amount.
 			$currentAmount=$table->amount;
-			
+				
 		}
 		
 		// Bind the data.
@@ -235,7 +237,7 @@ class BankModelExpense extends JModelAdmin {
 		// Clean the cache.
 		$this->cleanCache();
 		
-		$bankModel = $this->getInstance('Bank', 'BankModel', array ('ignore_request' => true));
+		$bankModel = $this->getInstance('Account', 'BankModel', array ('ignore_request' => true));
 		
 		// Update the balance.
 		$acc_id = $app->getUserState("$option.expenses.acc_id");
