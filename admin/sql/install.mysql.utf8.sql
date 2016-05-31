@@ -14,9 +14,9 @@ CREATE TABLE `#__bank_acc` (
 	DEFAULT CHARSET =utf8;
  
 INSERT INTO `#__bank_acc` (`id`, `user_id`, `description`, `balance`) VALUES
-(1, 1, 'Account 1', 0.00),
-(10, 1, 'Account 2', 304.73),
-(7, 1, 'Account 3', -135.86);
+(1, 389, 'Account 1', 0.00),
+(10, 388, 'Account 2', 304.73),
+(7, 388, 'Account 3', -135.86);
 
 DROP TABLE IF EXISTS `#__bank_expense`;
  
