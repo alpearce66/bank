@@ -33,39 +33,60 @@ class BankViewAccount extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-
+		dump($expensesModel,"BankViewAccount display in");
+		
 		// Determine the account id being used.
 		$app = JFactory::getApplication ();
 		$option = JRequest::getVar('option');
 		$acc_id = $app->getUserStateFromRequest ( "$option.accounts.acc_id", 'id',0);
+		dump($acc_id,"BankViewAccount display 0");
+		
+		$expensesModel = $this->getModel("Expenses");
+		dump($expensesModel,"BankViewAccount display 1");
 		
 		// Update the balance if expenses model is visible
-		if (!is_null($this->getModel("Expenses"))) {
-			$balance=$this->getModel("Expenses")->validateAccountValue($acc_id);
+		if (!is_null($expensesModel)) {
+			$balance=$expensesModel->validateAccountValue($acc_id);
 			$this->getModel()->setAccountValue($acc_id,$balance);
+			dump($this,"BankViewAccount display 2");
 		}
+		
+		dump($this,"BankViewAccount display 3");
 		
 		// Get the Data
 		$this->form = $this->get('Form');
 		$this->item = $this->getModel()->getItem($acc_id);
+		dump($this,"BankViewAccount display 4");
+		
+		$this->pagination	= $expensesModel->getPagination();
+		dump($acc_id,"BankViewAccount display 4a");
+		$this->items		= $expensesModel->getData();
+		dump($this,"BankViewAccount display 5");
+		
 		
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode('<br />', $errors));
- 
+			dump($this,"BankViewAccount display 6");
+				
 			return false;
 		}
  
  
 		// Set the toolbar
+		dump($this,"BankViewAccount display 7");
 		$this->addToolBar();
- 
+		dump($this,"BankViewAccount display 8");
+		
 		dump($this, 'Account Testing');
 		dump($tpl, 'Account Testing');
 		
 		// Display the template
 		parent::display($tpl);
+
+		dump($expensesModel,"BankViewAccount display out");
+		
 	}
  
 	/**
@@ -77,6 +98,8 @@ class BankViewAccount extends JViewLegacy
 	 */
 	protected function addToolBar()
 	{
+		dump($this,"BankViewAccount addToolBar in");
+		
 		$input = JFactory::getApplication()->input;
  
 		// Hide Joomla Administrator Main menu
@@ -95,12 +118,14 @@ class BankViewAccount extends JViewLegacy
 		}
  
 		JToolBarHelper::title($title, 'account');
-		JToolBarHelper::custom('account.accountValue','refresh.png','refresh_f2.png','Value',false);
+		JToolBarHelper::custom('account.accountInfo','refresh.png','refresh_f2.png','Value',false);
 		JToolBarHelper::save('account.save');
 		JToolBarHelper::cancel(
 			'account.cancel',
 			$isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE'
 		);
 		
+		dump($this,"BankViewAccount addToolBar out");
+	
 	}
 }

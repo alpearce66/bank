@@ -42,7 +42,7 @@ defined('_JEXEC') or die('Restricted Access');
 		<tbody>
 			<?php if (!empty($this->items)) : ?>
 				<?php foreach ($this->items as $i => $row) :
-					$link = JRoute::_('index.php?option=com_bank&task=account.edit&id=' . $row->id);
+					$link = JRoute::_('index.php?option=com_bank&task=account.accountInfo&id=' . $row->id);
 					$entries = JRoute::_('index.php?option=com_bank&task=expenses.expenseList&view=expenses&acc_id='.$row->id);
 				?>
 					<tr>

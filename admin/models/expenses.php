@@ -212,13 +212,16 @@ class BankModelExpenses extends JModelList
 		$query = $db->getQuery(true);
 		
 		// Check for the account ID comming in on the request.
-		$acc_id = $app->input->get("acc_id");
+		//$acc_id = $app->input->get("acc_id");
+
+		$acc_id = $app->getUserStateFromRequest ( "$option.accounts.acc_id", 'acc_id',0);
+		
 		
 		// If it wasn't found use the stored state.
-		if ($acc_id == null)
-		{
-			$acc_id = $app->getUserState("$option.expenses.acc_id");
-		}
+		//if ($acc_id == null)
+		//{
+		//	$acc_id = $app->getUserState("$option.accounts.acc_id");
+		//}
 		
 		// Create the base select statement.
 		$query->select('*')
