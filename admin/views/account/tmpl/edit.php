@@ -7,13 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
  
-// No direct access
-defined('_JEXEC') or die('Restricted access');
- 
+// No direct access to this file
+defined('_JEXEC') or die('Restricted Access');
 ?>
 <div id="account">
 <form action="<?php echo JRoute::_('index.php?option=com_bank&layout=edit&id=' . (int) $this->item->id); ?>"
-    method="post" name="adminForm" id="adminForm">
+    method="post" name="adminForm1" id="adminForm1">
     <div class="form-horizontal">
         <fieldset class="adminform">
             <div class="row-fluid">
@@ -33,7 +32,7 @@ defined('_JEXEC') or die('Restricted access');
 </form>
 </div>
 <div id="expenses">
-<form action="index.php?option=com_bank&view=expenses" method="post" id="adminForm" name="adminForm">
+<form action="index.php?option=com_bank&view=accountInfo" method="post" id="adminForm" name="adminForm">
 	<table class="table table-striped table-hover">
 		<thead>
 		<tr>
@@ -89,10 +88,9 @@ defined('_JEXEC') or die('Restricted access');
 			<?php endif; ?>
 		</tbody>
 	</table>
-	<input type="hidden" name="task" value=""/>
+	<input type="hidden" name="task" value="account.accountInfo"/>
 	<input type="hidden" name="boxchecked" value="0"/>
-	<input type="hidden" name="view" value="expenses" />
+	<input type="hidden" name="view" value="accountInfo" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 </div>
-

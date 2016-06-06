@@ -41,26 +41,18 @@ class BankViewAccount extends JViewLegacy
 		$acc_id = $app->getUserStateFromRequest ( "$option.accounts.acc_id", 'id',0);
 		dump($acc_id,"BankViewAccount display 0");
 		
-		$expensesModel = $this->getModel("Expenses");
-		dump($expensesModel,"BankViewAccount display 1");
-		
-		// Update the balance if expenses model is visible
-		if (!is_null($expensesModel)) {
-			$balance=$expensesModel->validateAccountValue($acc_id);
-			$this->getModel()->setAccountValue($acc_id,$balance);
-			dump($this,"BankViewAccount display 2");
-		}
-		
-		dump($this,"BankViewAccount display 3");
-		
+		$accountModel = $this->getModel("Account");
+		dump($accountModel,"BankViewAccount display 1");
+				
 		// Get the Data
-		$this->form = $this->get('Form');
-		$this->item = $this->getModel()->getItem($acc_id);
+		$this->form = $accountModel->getForm();
+		$this->item = $accountModel->getItem($acc_id);
 		dump($this,"BankViewAccount display 4");
+		dump($this->getModel("Expenses"),"BankViewAccount display 4a");
 		
-		$this->pagination	= $expensesModel->getPagination();
+		$this->pagination	= $this->get(Pagination);
 		dump($acc_id,"BankViewAccount display 4a");
-		$this->items		= $expensesModel->getData();
+		$this->items		= $this->get(Data);
 		dump($this,"BankViewAccount display 5");
 		
 		

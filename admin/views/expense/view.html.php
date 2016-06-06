@@ -90,7 +90,7 @@ class BankViewExpense extends JViewLegacy {
 		
 		JToolBarHelper::title ( $title, 'expense' );
 		JToolBarHelper::save ( 'expense.save' );
-		JToolBarHelper::cancel ( 'expenses.expenseList', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE' );
+		JToolBarHelper::cancel ( 'account.accountInfo', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE' );
 
 		dump($this,"BankViewExpense - addToolBar out");
 		

@@ -30,6 +30,6 @@ defined('_JEXEC') or die('Restricted access');
     </div>
     <input type="hidden" name="task" value="expense.expenseForm" />
 	<input type="hidden" name="boxchecked" value="0"/>
-	<input type="hidden" name="view" value="expenses" />
+	<input type="hidden" name="view" value="account.accountInfo" />
     <?php echo JHtml::_('form.token'); ?>
 </form>
