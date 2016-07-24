@@ -110,12 +110,20 @@ class BankViewAccount extends JViewLegacy
 		}
  
 		JToolBarHelper::title($title, 'account');
-		JToolBarHelper::custom('account.accountInfo','refresh.png','refresh_f2.png','Value',false);
+		JToolBarHelper::custom('account.validate','refresh.png','refresh_f2.png','Value',false);
 		JToolBarHelper::save('account.save');
 		JToolBarHelper::cancel(
 			'account.cancel',
 			$isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE'
 		);
+		
+		
+		JToolBarHelper::addNew('expense.expenseForm');
+		JToolBarHelper::editList('expense.expenseForm');
+		JToolBarHelper::deleteList('','expenses.delete');
+		
+		
+		
 		
 		dump($this,"BankViewAccount addToolBar out");
 	

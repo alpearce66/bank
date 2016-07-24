@@ -66,11 +66,6 @@ defined('_JEXEC') or die('Restricted Access');
 								<?php echo $theUser->name; ?>
 							</a>
 						</td>
-						<td>
-							<a href="<?php echo $entries; ?>" title="<?php echo JText::_('COM_BANK_EDIT_ACCOUNT'); ?>">
-								<?php echo "Expense list"; ?>
-							</a>
-						</td>
 					</tr>
 				<?php endforeach; ?>
 			<?php endif; ?>

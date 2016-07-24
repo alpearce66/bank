@@ -63,13 +63,13 @@ class BankModelExpenses extends JModelList
 	 			'int');
 
 	 	// Retrieve the current account ID being processed.
-	 	$acc_id = $app->getUserStateFromRequest("$option.expenses.acc_id", 'acc_id', 0, 'int');
+	 	$acc_id = $app->getUserStateFromRequest("$option.accounts.acc_id", 'acc_id', 0, 'int');
 	 			
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 	 
 		// Save the state information for future use.
-		$app->setUserState("$option.expenses.acc_id", $acc_id);
+		$app->setUserState("$option.accounts.acc_id", $acc_id);
 		$app->setUserState("$option.expenses.limitstart", $limitstart);
 		
 	  	dump ( $this, "BankModelExpenses __construct out" );
@@ -122,7 +122,7 @@ class BankModelExpenses extends JModelList
 	  	
 	 	$bankModel = $this->getInstance('Account', 'BankModel', array ('ignore_request' => true));
 	 	dump ( $bankModel , "BankModelExpenses deleteExpense 0" );
-	 		
+	 	
 	 	$db    = JFactory::getDbo();
 			
 	 	foreach ($cids as $trans_id) {
@@ -132,8 +132,12 @@ class BankModelExpenses extends JModelList
  			$currentAmount=$table->amount;
  			
 	 		// Update the balance.
-	 		$acc_id = $app->getUserState("$option.expenses.acc_id");
+	 		$acc_id = $app->getUserState("$option.accounts.acc_id");
 	 		$acc_value = $bankModel->getAccountValue($acc_id) - $currentAmount;
+	 		
+	 		dump ( $acc_value , "BankModelExpenses expense value to be deleted" );
+	 		
+	 		
 	 		$bankModel->setAccountValue($acc_id,$acc_value);
 	 		
 	 		// Remove the seltected transaction

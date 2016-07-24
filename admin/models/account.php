@@ -105,7 +105,7 @@ class BankModelAccount extends JModelAdmin
 		return $data;
 	}
 	
-	protected function validateAccountValue($account)
+	function validateAccountValue($account)
 	{
 		
 		dump ( $account, "BankModelAccount - validateAccountValue in" );
@@ -123,12 +123,13 @@ class BankModelAccount extends JModelAdmin
 	{
 		
 		dump ( gettype($value), "BankModelAccount - setAccountValue in" );
+		dump ( $value, "BankModelAccount - setAccountValue in value" );
 		
-		if (is_double($value)) {
+		if (is_numeric($value)) {
 			
 			$entry = new stdClass();
-			$entry->id = $account;
-			$entry->balance=$value;
+			$entry->id = (int)$account;
+			$entry->balance=(int)$value;
 				
 			// Insert the object into the user profile table.
 			$result = JFactory::getDbo()->updateObject('#__bank_acc', $entry, 'id');
@@ -143,16 +144,18 @@ class BankModelAccount extends JModelAdmin
 	{
 
 		dump ( $this, "BankModelAccount - getAccountValue in" );
+		dump ( $account, "BankModelAccount - getAccountValue account_id" );
 		
 		// Initialize variables.
 		$balance=null;
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		
-		if (is_int($account)) {
+		if (is_numeric($account)) {
 			$query->select($db->quoteName(array('balance')));
 			$query->from($db->quoteName('#__bank_acc'));
 			$query->where($db->quoteName('id') . ' = '. $account);
+			dump ( $query, "BankModelAccount - getAccountValue Query" );
 			$db->setQuery($query);
 			$balance = $db->loadResult();
 				
@@ -164,4 +167,74 @@ class BankModelAccount extends JModelAdmin
 		
 	}
 	
+	public function save($data) {
+	
+		dump ( $this, "BankModelAccount - save in" );
+	
+		$app = JFactory::getApplication ();
+	
+		// Get component name for use in saving state.
+		$option = JRequest::getVar('option');
+		
+		//$acc_id = $app->getUserState("$option.accounts.acc_id");
+		
+		$table   = $this->getTable();
+		$isNew = true;
+		
+		// Load the row if saving an existing item.
+		if ($data[user_id] > 0)
+		{
+			$table->load($data[user_id]);
+			$isNew = false;
+		
+			// Take into account any change in amount.
+			$currentAmount=$table->balance;
+		
+		}
+		
+		dump ( $data, "BankModelAccount - what are we saving" );
+		
+		// Bind the data.
+		if (!$table->bind($data))
+		{
+			$this->setError($table->getError());
+			dump ( $this, "BankModelAccount - save [failed] out" );
+		
+			return false;
+		}
+		
+		// Check the data.
+		if (!$table->check())
+		{
+			$this->setError($table->getError());
+			dump ( $this, "BankModelAccount - save out" );
+		
+			return false;
+		}
+		
+		// Store the data.
+		if (!$table->store())
+		{
+			$this->setError($table->getError());
+			dump ( $this, "BankModelAccount - save out" );
+		
+			return false;
+		}
+		
+		// Clean the cache.
+		$this->cleanCache();
+		
+		$app->setUserState("$option.accounts.acc_id", 0);
+		
+		$app->redirect("index.php?option=com_bank&task=accounts.accountList");
+		$app->close();
+		
+		dump ( $this, "BankModelAccount - save out" );
+		
+		return true;
+	
+	}
+	
+	
+
 }

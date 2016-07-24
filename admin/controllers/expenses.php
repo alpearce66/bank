@@ -43,10 +43,36 @@ class BankControllerExpenses extends JControllerAdmin
 
 		dump ( $this, "BankControllerExpenses expenseList in" );
 		
-		$view = $this->getView('Expenses','html','BankView');
-		$view->setModel( $this->getModel(), true );
-		$view->display();	
+// 		$view = $this->getView('Expenses','html','BankView');
+// 		$view->setModel( $this->getModel(), true );
+// 		$view->display();	
 
+		
+		
+// 		$bankModel = $this->getInstance('Account', 'BankModel', array ('ignore_request' => true));
+// 		dump ( $bankModel, "BankControllerExpenses expenseList bank model" );
+// 		$view = $this->getView('Account','html','BankView');
+// 		dump ( $view, "BankControllerExpenses expenseList view" );
+// 		$view->setModel( $bankModel, true );
+		
+
+		
+		
+		dump($this,"BankControllerAccount accountInfo in");
+		$view = $this->getView('Account','html','BankView');
+		dump($this,"BankControllerAccount accountInfo 0");
+		$view->setLayout ( 'default:edit' );
+		dump($this,"BankControllerAccount accountInfo 1");
+		
+		$view->setModel( $this->getModel('Account','BankModel'), false );
+		dump($this->getModel('Account',"BankModel"),"ControllerAccount accountInfo 2");
+		$view->setModel( $this->getModel('Expenses','BankModel'),true);
+		dump($this->getModel('Expenses',"BankModel"),"ControllerAccount accountInfo 3");
+		$view->display();
+		
+		
+		
+		
 		dump ( $this, "BankControllerExpenses expenseList out" );
 		
 	}

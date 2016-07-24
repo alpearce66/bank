@@ -11,8 +11,7 @@
 defined('_JEXEC') or die('Restricted Access');
 ?>
 <div id="account">
-<form action="<?php echo JRoute::_('index.php?option=com_bank&layout=edit&id=' . (int) $this->item->id); ?>"
-    method="post" name="adminForm1" id="adminForm1">
+<form action="index.php?option=com_bank&view=accountInfo" method="post" id="adminForm" name="adminForm">
     <div class="form-horizontal">
         <fieldset class="adminform">
             <div class="row-fluid">
@@ -27,12 +26,8 @@ defined('_JEXEC') or die('Restricted Access');
             </div>
         </fieldset>
     </div>
-    <input type="hidden" name="task" value="account.edit" />
-    <?php echo JHtml::_('form.token'); ?>
-</form>
 </div>
 <div id="expenses">
-<form action="index.php?option=com_bank&view=accountInfo" method="post" id="adminForm" name="adminForm">
 	<table class="table table-striped table-hover">
 		<thead>
 		<tr>

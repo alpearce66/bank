@@ -188,9 +188,11 @@ class BankModelExpense extends JModelAdmin {
 		$option = JRequest::getVar('option');
 		
 		$trans_id = $app->getUserState("$option.expenses.trans_id");
+		$acc_id = $app->getUserState("$option.accounts.acc_id");
 		
 		// Check the session for previously entered form data.
 		$data[date] = strtotime($data[date]);
+		$data[acc_id] = $acc_id;
 		
 		$table   = $this->getTable();
 		$isNew = true;
@@ -207,6 +209,8 @@ class BankModelExpense extends JModelAdmin {
 				
 		}
 		
+		dump ( $data, "BankModelExpense - what are we saving" );
+				
 		// Bind the data.
 		if (!$table->bind($data))
 		{
@@ -237,17 +241,28 @@ class BankModelExpense extends JModelAdmin {
 		// Clean the cache.
 		$this->cleanCache();
 		
-		$bankModel = $this->getInstance('Account', 'BankModel', array ('ignore_request' => true));
+		$accountModel = $this->getInstance('Account', 'BankModel', array ('ignore_request' => true));
 		
 		// Update the balance.
-		$acc_id = $app->getUserState("$option.expenses.acc_id");
-		$acc_value = $bankModel->getAccountValue($acc_id) + $data[amount] - $currentAmount;
-		$bankModel->setAccountValue($acc_id,$acc_value);
+		$acc_value = $accountModel->getAccountValue($acc_id);
+
+		dump ( $acc_value, "BankModelExpense - Account current value" );
+		dump ( $data[amount], "BankModelExpense - Account value to add" );
+
+		$acc_value = $accountModel->getAccountValue($acc_id) + $data[amount] - $currentAmount;
+		
+		$accountModel->setAccountValue($acc_id,$acc_value);
+
+		
 		
 		// Clear the transaction ID as now saved.
 		$app->setUserState("$option.expenses.trans_id", 0);
 		
 		dump ( $this, "BankModelExpense - save out" );
+		dump ( $acc_id, "BankModelExpense - save out acc_id" );
+		
+		$app->redirect("index.php?option=com_bank&task=account.accountInfo&id=$acc_id");
+		$app->close();
 		
 		return true;
 		
